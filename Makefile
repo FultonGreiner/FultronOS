@@ -34,4 +34,4 @@ prep_dirs:
 clean:
 	$(RM) $(BINDIR)/*.o
 	$(RM) $(BINDIR)/*.elf
-	# $(RM) -rf $(BINDIR)
+	$(RM) -rf $(BINDIR)
