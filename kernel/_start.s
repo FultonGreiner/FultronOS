@@ -4,7 +4,7 @@
 // entry point (code execution begins here)
 _start:
     // set stack pointer to top address of stack memory
-    ldr sp, =STACK_TOP
+    ldr sp, =stack_top
     // save return address, branch to `start` subroutine
     bl start
 

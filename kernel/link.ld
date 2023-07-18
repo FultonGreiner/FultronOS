@@ -18,10 +18,10 @@ SECTIONS
     /* `.bss` <- uninitialized data */
     .bss    : { *(.bss COMMON) }
  
-    /* set current address to `STACK_BASE` */
-    STACK_BASE = .;
+    /* set current address to `stack_base` */
+    stack_base = .;
     /* increment current address (reserves 65536 bytes of memory) */
     . += 0x10000;
-    /* set current address to `STACK_TOP` */
-    STACK_TOP = .;
+    /* set current address to `stack_top` */
+    stack_top = .;
 }
