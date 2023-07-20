@@ -1,7 +1,11 @@
 #include <stdint.h>
 
-#define UART0_BASE 0x1c090000
+#include "../include/stdio.h"
+#include "../include/uart.h"
+
+uart_t *uart = (uint8_t *) UART_BASE;
 
 void start() {
-    *(volatile uint32_t *)(UART0_BASE) = 'A';
+    printf("10/5 = %d\n", uart, 10 / 5);
+    // printf("The number %d has %d digits!\n", uart, 1000, 4);
 }
