@@ -19,8 +19,14 @@ qemu: kernel.elf
 	$(QEMU) $(QEMUFLAGS) $(BINDIR)/$< -nographic
 
 # TODO - improve rule to not require `cd` command
-kernel.elf: start.o
-	cd $(BINDIR) && $(LD) $(LDFLAGS) _start.o start.o -o $@ && cd ..
+kernel.elf: printf.o
+	cd $(BINDIR) && $(LD) $(LDFLAGS) _start.o start.o putc.o printf.o -o $@ && cd ..
+
+printf.o: putc.o
+	$(CC) $(CCFLAGS) -c $(KDIR)/printf.c -o $(BINDIR)/$@
+
+putc.o: start.o
+	$(CC) $(CCFLAGS) -c $(KDIR)/putc.c -o $(BINDIR)/$@
 
 start.o: _start.o
 	$(CC) $(CCFLAGS) -c $(KDIR)/start.c -o $(BINDIR)/$@

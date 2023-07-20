@@ -7,5 +7,4 @@ uart_t *uart = (uint8_t *) UART_BASE;
 
 void start() {
     printf("10/5 = %d\n", uart, 10 / 5);
-    // printf("The number %d has %d digits!\n", uart, 1000, 4);
 }
