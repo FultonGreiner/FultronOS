@@ -1,10 +1,10 @@
-#ifndef _UART_H_
-#define _UART_H_
+#ifndef __UART_H__
+#define __UART_H__
 
 #include <stdint.h>
 
 #define UART_BASE 0x1c090000
 
-typedef volatile uint8_t uart_t;
+typedef volatile uint32_t uart_t;
 
-#endif                                                          /* _UART_H_ */
+#endif /* __UART_H__ */
