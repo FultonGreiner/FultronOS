@@ -1,10 +1,15 @@
 #include <stdint.h>
 
-#include "../include/stdio.h"
+// #include <math.h>
+
+#include "../lib/libc/stdio/inc/stdio.h"
 
 stdout_t *stdout = (stdout_t*) STDOUT_BASE;
 
 void start(void)
 {
-    printf("Hello, world!\n");
+    int d = 10;
+    printf("float = %d\n", d);
+
+    // printf("string = %s\n", "string");
 }

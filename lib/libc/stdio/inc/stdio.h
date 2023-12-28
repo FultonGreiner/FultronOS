@@ -4,8 +4,8 @@
 #include <stdarg.h>
 #include <stdint.h>
 
-#include "../include/uart.h"
-#include "../include/stdout.h"
+#include "../../../../include/uart.h"
+#include "stdout.h"
 
 extern stdout_t *stdout;
 

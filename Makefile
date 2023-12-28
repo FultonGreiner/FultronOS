@@ -3,53 +3,46 @@ TOOLCHAIN_PREFIX = arm-none-eabi-
 AS = $(TOOLCHAIN_PREFIX)as
 CC = $(TOOLCHAIN_PREFIX)gcc
 LD = $(TOOLCHAIN_PREFIX)ld
-QEMU = qemu-system-arm
 
-# -march=armv7-a+vfpv3-d16-fp16
 ASFLAGS ?= -mcpu=cortex-a8 -march=armv7-a+vfpv3-d16-fp16
-# -mfpu=neon-vfpv3 -mfloat-abi=softfp
+
 CCFLAGS ?= -ffreestanding -Wall -Wextra -Werror -nostartfiles -nostdlib -fno-builtin -fno-stack-protector -mcpu=cortex-a8 -mfpu=neon-vfpv3 -mfloat-abi=softfp -mthumb
 
-LDFLAGS ?= -T ../kernel/link.ld
+ROOT_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
+
+LDFLAGS ?= -T $(ROOT_DIR)/link.ld
+
+QEMU = qemu-system-arm
 QEMUFLAGS ?= -M vexpress-a15 -cpu cortex-a15 -kernel
 
-BINDIR = out
-KDIR = kernel
+BUILDDIR = $(ROOT_DIR)/build
+BINDIR = $(BUILDDIR)/bin
 
-# LIBG = $(shell $(CC) -print-file-name=libg.a)
-# LIBM = $(shell $(CC) -print-file-name=libm.a)
-# LIBGCC = $(shell $(CC) -print-libgcc-file-name)
+KDIR = $(ROOT_DIR)/kernel
+STARTUPDIR = $(KDIR)/startup
 
-LIBG = /opt/homebrew/Cellar/arm-none-eabi-gcc/10.3-2021.07/gcc/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/
-LIBM = /opt/homebrew/Cellar/arm-none-eabi-gcc/10.3-2021.07/gcc/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/lib/
-LIBGCC = /opt/homebrew/Cellar/arm-none-eabi-gcc/10.3-2021.07/gcc/bin/../lib/gcc/arm-none-eabi/10.3.1/
+LIBDIR = $(ROOT_DIR)/lib
 
 VPATH = $(BINDIR) $(KDIR)
 
 qemu: kernel.elf
 	$(QEMU) $(QEMUFLAGS) $(BINDIR)/$< -nographic
 
-# TODO - improve rule to not require `cd` command
-kernel.elf: printf.o
-	cd $(BINDIR) &&  $(CC) $(CCFLAGS) $(LDFLAGS) -o $@ -ffreestanding _start.o start.o putc.o printf.o -lgcc -lm -lg && cd ..
-	# cd $(BINDIR) && $(CC) $(CCFLAGS) $(LDFLAGS) _start.o start.o putc.o printf.o -o $@ -L$(LIBGCC) -lgcc -L$(LIBM) -lm -L$(LIBG) -lg && cd ..
+kernel.elf: libc
+	cd $(BINDIR) &&  $(CC) $(CCFLAGS) $(LDFLAGS) -o $@ _start.o start.o putc.o printf.o -lc -lgcc -lm && cd ..
 
-printf.o: putc.o
-	$(CC) $(CCFLAGS) -c $(KDIR)/printf.c -o $(BINDIR)/$@
-
-putc.o: start.o
-	$(CC) $(CCFLAGS) -c $(KDIR)/putc.c -o $(BINDIR)/$@
+libc: start.o
+	$(MAKE) -C $(LIBDIR) libc
 
 start.o: _start.o
 	$(CC) $(CCFLAGS) -fPIC -c $(KDIR)/start.c -o $(BINDIR)/$@
 
 _start.o: prep_dirs
-	$(AS) $(ASFLAGS) -c $(KDIR)/_start.s -o $(BINDIR)/$@
+	$(AS) $(ASFLAGS) -c $(STARTUPDIR)/_start.s -o $(BINDIR)/$@
 
 prep_dirs:
+	mkdir -p $(BUILDDIR)
 	mkdir -p $(BINDIR)
 
 clean:
-	$(RM) $(BINDIR)/*.o
-	$(RM) $(BINDIR)/*.elf
-	$(RM) -rf $(BINDIR)
+	$(RM) -rf $(BUILDDIR)
