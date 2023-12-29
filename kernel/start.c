@@ -18,7 +18,7 @@ extern unsigned int GET32 (unsigned int address);
 #define CM_PER_GPIO1		0xAC
 
 #define TIME 500000
-void _main (void)
+void start (void)
 {
 	volatile unsigned int ra;
 		PUT32(CM_PER_BASE+CM_PER_GPIO1, 1<<18 | 2);

@@ -15,8 +15,7 @@ _start:
    // set stack pointer to top address of stack memory
    @ ldr sp, =stack_top
 
-	bl _main
-
+	bl start
 
 .loop: b .loop
 

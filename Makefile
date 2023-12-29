@@ -14,7 +14,7 @@ CCFLAGS ?= -nostdlib
 
 ROOT_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 
-LDFLAGS ?= -T $(ROOT_DIR)/link.ld
+LDFLAGS ?= -T $(ROOT_DIR)/memmap.ld
 
 QEMU = qemu-system-arm
 QEMUFLAGS ?= -M vexpress-a15 -cpu cortex-a15 -kernel
