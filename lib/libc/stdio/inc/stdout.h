@@ -10,4 +10,6 @@
 
 typedef volatile uint32_t stdout_t;
 
+extern stdout_t *stdout;
+
 #endif /* __STDOUT_H__ */

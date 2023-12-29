@@ -3,6 +3,8 @@
 #include <stdint.h>
 #include <stdarg.h>
 
+stdout_t *stdout = (stdout_t*) STDOUT_BASE;
+
 void printf(const char *s, ...);
 
 int count_args(const char *s)

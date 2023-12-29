@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-#define UART_BASE 0x1c090000
+#define UART_BASE       (0x1c090000UL)
 
 typedef volatile uint32_t uart_t;
 
