@@ -30,3 +30,4 @@ GET32:
 	bx lr
 
 .size _start, . - _start
+

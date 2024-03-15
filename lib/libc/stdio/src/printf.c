@@ -3,9 +3,9 @@
 #include <stdint.h>
 #include <stdarg.h>
 
-stdout_t *stdout = (stdout_t*) STDOUT_BASE;
+// stdout_t *stdout = (stdout_t*) STDOUT_BASE;
 
-void printf(const char *s, ...);
+// void printf(const char *s, ...);
 
 int count_args(const char *s)
 {
@@ -83,56 +83,58 @@ char* citoa(int num, char* str, int base)
     return str;
 }
 
-void printf(const char *s, ...)
-{
-    int size = count_args(s);
+// void printf(const char *s, ...)
+// int printf(const char *s, ...)
+// {
+//     int size = count_args(s);
 
-    va_list args;
-    va_start(args, s);
+//     va_list args;
+//     va_start(args, s);
 
-    while ( *s != '\0' ) {
-        if ( (*s == '%') ) {
-            s++;
-            switch (*s) {
-                case 'd': {
-                    int d = va_arg(args, int);
-                    int digits = count_digits(d);
+//     while ( *s != '\0' ) {
+//         if ( (*s == '%') ) {
+//             s++;
+//             switch (*s) {
+//                 case 'd': {
+//                     int d = va_arg(args, int);
+//                     int digits = count_digits(d);
 
-                    char d_str[digits + 2]; /* additional space for null terminator & (-) sign */
-                    citoa(d, d_str, 10);
-                    int i = 0;
-                    while (d_str[i] != '\0')
-                    {
-                        putc(d_str[i], stdout);
-                        i++;
-                    }
-                    break;
-                }
-                case 's': {
-                    char *str = va_arg(args, char *);
-                    while (*str != '\0')
-                    {
-                        putc(*str, stdout);
-                        str++;
-                    }
-                    break;
-                }
-                case 'c': {
-                    int c = va_arg(args, int);
-                    putc(c, stdout);
-                    break;
-                }
-                case 'f': {
-                    double f = va_arg(args, double);
-                    int f_int = (int) f;
-                    putc('0' + f_int, stdout);
-                    break;
-                }
-            }
-            size--;
-        } else {
-            putc(*s, stdout);
-        }
-        s++;
-    }
-}
+//                     char d_str[digits + 2]; /* additional space for null terminator & (-) sign */
+//                     citoa(d, d_str, 10);
+//                     int i = 0;
+//                     while (d_str[i] != '\0')
+//                     {
+//                         putc(d_str[i], stdout);
+//                         i++;
+//                     }
+//                     break;
+//                 }
+//                 case 's': {
+//                     char *str = va_arg(args, char *);
+//                     while (*str != '\0')
+//                     {
+//                         putc(*str, stdout);
+//                         str++;
+//                     }
+//                     break;
+//                 }
+//                 case 'c': {
+//                     int c = va_arg(args, int);
+//                     putc(c, stdout);
+//                     break;
+//                 }
+//                 case 'f': {
+//                     double f = va_arg(args, double);
+//                     int f_int = (int) f;
+//                     putc('0' + f_int, stdout);
+//                     break;
+//                 }
+//             }
+//             size--;
+//         } else {
+//             putc(*s, stdout);
+//         }
+//         s++;
+//     }
+//     return 0;
+// }

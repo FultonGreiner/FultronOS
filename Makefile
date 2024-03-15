@@ -5,14 +5,13 @@ CC = $(TOOLCHAIN_PREFIX)gcc
 LD = $(TOOLCHAIN_PREFIX)ld
 OBJCOPY = $(TOOLCHAIN_PREFIX)objcopy
 
-BUILDDIR = $(ROOT_DIR)/build
-BINDIR = $(BUILDDIR)/bin
-
 # ASFLAGS ?= -mcpu=cortex-a8 -march=armv7-a+vfpv3-d16-fp16
-# CCFLAGS ?= -ffreestanding -Wall -Wextra -Werror -nostartfiles -nostdlib -fno-builtin -fno-stack-protector -mcpu=cortex-a8 -mfpu=neon-vfpv3 -mfloat-abi=softfp -mthumb 
-CCFLAGS ?= -nostdlib
+CCFLAGS ?= -ffreestanding -Wall -Wextra -Werror -nostartfiles -nostdlib -fno-builtin -fno-stack-protector -mcpu=cortex-a8 -mfpu=neon-vfpv3 -mfloat-abi=softfp -mthumb 
+CCFLAGS += -nostdlib
 
 ROOT_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
+BUILDDIR = $(ROOT_DIR)/build
+BINDIR = $(BUILDDIR)/bin
 
 LDFLAGS ?= -T $(ROOT_DIR)/memmap.ld
 
@@ -31,8 +30,8 @@ VPATH = $(BINDIR) $(KDIR)
 TARGET_BIN = $(BINDIR)/kernel.bin
 TARGET_ELF = $(BINDIR)/kernel.elf
 
-qemu: kernel.elf
-	$(QEMU) $(QEMUFLAGS) $(BINDIR)/$< -nographic
+qemu:
+	$(QEMU) $(QEMUFLAGS) Debug/FultronOS.elf -nographic
 
 copy:
 	cp $(TARGET_BIN) $(TFTPDIR)

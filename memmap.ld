@@ -3,6 +3,7 @@ OUTPUT_ARCH(arm)
 
 /* specify entry point */
 ENTRY(_start)
+_estack = ORIGIN(ram) + LENGTH(ram); /* end of "RAM" Ram type memory */
 
 MEMORY
 {
