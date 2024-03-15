@@ -8,7 +8,7 @@ SECTIONS
     . = 0x80010000;
 
     /* `.stub` <- `.text` section from `_start.o` */
-    .stub   : { _start.o(.text) }
+    /* .stub   : { _start.(.text) } */
     /* `.text` <- main */
     .text   : { *(.text) }
     /* `.rodata` <- read-only data */
