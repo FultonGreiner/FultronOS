@@ -1,4 +1,4 @@
-#include "../include/stdio.h"
+#include "stdio.h"
 
 #include <stdint.h>
 #include <stdarg.h>
@@ -15,9 +15,8 @@ int count_args(const char *s) {
     return count;
 }
 
-
-
-void printf(const char *s, uart_t *addr, ...) {
+void kprintf(const char *s, uart_t *addr, ...)
+{
     int size = count_args(s);
 
     va_list args;
