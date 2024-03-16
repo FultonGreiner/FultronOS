@@ -11,7 +11,7 @@ ASFLAGS ?= -mcpu=cortex-a8 -march=armv7-a+vfpv3-d16-fp16
 CCFLAGS ?= -ffreestanding -Wall -Wextra -Werror -nostartfiles -nostdlib -fno-builtin -fno-stack-protector -mcpu=cortex-a8 -mfpu=neon-vfpv3 -mfloat-abi=softfp -mthumb
 
 LDFLAGS ?= -T ../kernel/link.ld
-QEMUFLAGS ?= -M vexpress-a9 -cpu cortex-a9 -s -S -kernel
+QEMUFLAGS ?= -M vexpress-a15 -cpu cortex-a15 -kernel
 
 BINDIR = out
 KDIR = kernel

@@ -24,4 +24,20 @@ SECTIONS
     . += 0x10000;
     /* set current address to `stack_top` */
     stack_top = .;
+
+    /* .ARM.extab :
+    {
+        *(.ARM.extab* .gnu.linkonce.armextab.*)
+    } */
+
+    /*
+     * Arm stack unwinding.
+     * If removed may cause random crashes.
+     */
+    /* .ARM.exidx :
+    {
+        __exidx_start = .;
+        *(.ARM.exidx* .gnu.linkonce.armexidx.*)
+        __exidx_end = .;
+    } */
 }
