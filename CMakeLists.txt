@@ -32,8 +32,8 @@ set (X_ASSEMBLER_WITH_CPP             "-x assembler-with-cpp")
 set (PROJECT_NAME             "FultronOS")
 set (PROJECT_TYPE             ${PROJECT_TYPE_EXECUTABLE})
 
-set (PROJECT_LINKER_SCRIPT    "-T ${CMAKE_SOURCE_DIR}/kernel/link.ld")
-set (GENERATE_MAP_FILE        "-Wl,-Map=${CMAKE_PROJECT_NAME}.map")
+set (PROJECT_LINKER_SCRIPT    "-T ${CMAKE_SOURCE_DIR}/source/kernel/link.ld")
+set (GENERATE_MAP_FILE        "-Wl,-Map=${PROJECT_NAME}.map")
 
 set (LINKER_SCRIPT            ${PROJECT_LINKER_SCRIPT})
 set (MCPU                     ${MCPU_CORTEX_A8})
@@ -42,12 +42,17 @@ set (MFLOAT_ABI               ${M_FLOAT_ABI_SOFTFP})
 set (RUNTIME_LIBRARY          ${RUNTIME_LIBRARY_REDUCED_C})
 set (RUNTIME_LIBRARY_SYSCALLS ${RUNTIME_LIBRARY_SYSCALLS_MINIMAL})
 
+set (PROJECT_DIR              ${CMAKE_SOURCE_DIR})
+set (SOURCE_DIR               ${PROJECT_DIR}/source)
+set (KERNEL_DIR               ${SOURCE_DIR}/kernel)
+set (INCLUDE_DIR              ${SOURCE_DIR}/inc)
+
 set (PROJECT_SOURCES
-    kernel/_start.s 
-    kernel/printf.c 
-    kernel/putc.c 
-    kernel/start.c
-    kernel/syscalls.c
+    ${KERNEL_DIR}/_start.s 
+    ${KERNEL_DIR}/printf.c 
+    ${KERNEL_DIR}/putc.c 
+    ${KERNEL_DIR}/start.c
+    ${KERNEL_DIR}/syscalls.c
     )
 
 set (PROJECT_DEFINES
@@ -55,7 +60,7 @@ set (PROJECT_DEFINES
 
 set (PROJECT_INCLUDES
 	# LIST INCLUDE DIRECTORIES HERE
-    include
+    ${INCLUDE_DIR}
     )
 
 project(${PROJECT_NAME} ASM C)
@@ -79,6 +84,6 @@ include_directories (${PROJECT_INCLUDES})
 set (CMAKE_EXECUTABLE_SUFFIX ".elf")
 
 # ${NO_STDLIB} ${NO_BUILTIN}
-set (CMAKE_C_FLAGS "${F_FREESTANDING} ${W_ALL} ${W_EXTRA} ${W_ERROR} ${RUNTIME_LIBRARY} ${NO_STARTFILES} ${NO_STACK_PROTECTOR} ${MCPU} ${MFPU} ${MFLOAT_ABI} ${M_THUMB}")
-set (CMAKE_EXE_LINKER_FLAGS "${GENERATE_MAP_FILE} ${RUNTIME_LIBRARY_SYSCALLS} ${PROJECT_LINKER_SCRIPT} ${F_FREESTANDING} ${WL_GC_SECTIONS} ${STATIC} ${WL_LIBS}")
+set (CMAKE_C_FLAGS "-g3 -O0 ${F_FREESTANDING} ${W_ALL} ${W_EXTRA} ${W_ERROR} ${RUNTIME_LIBRARY} ${NO_STARTFILES} ${NO_STACK_PROTECTOR} ${MCPU} ${MFPU} ${MFLOAT_ABI} ${M_THUMB}")
+set (CMAKE_EXE_LINKER_FLAGS "-g3 -O0 ${GENERATE_MAP_FILE} ${RUNTIME_LIBRARY_SYSCALLS} ${PROJECT_LINKER_SCRIPT} ${F_FREESTANDING} ${WL_GC_SECTIONS} ${STATIC} ${WL_LIBS}")
 set (CMAKE_ASM_FLAGS "${CMAKE_C_FLAGS} ${X_ASSEMBLER_WITH_CPP}")

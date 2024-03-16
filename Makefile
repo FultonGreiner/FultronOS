@@ -11,7 +11,7 @@ ASFLAGS ?= -mcpu=cortex-a8 -march=armv7-a+vfpv3-d16-fp16
 CCFLAGS ?= -ffreestanding -Wall -Wextra -Werror -nostartfiles -nostdlib -fno-builtin -fno-stack-protector -mcpu=cortex-a8 -mfpu=neon-vfpv3 -mfloat-abi=softfp -mthumb
 
 LDFLAGS ?= -T ../kernel/link.ld
-QEMUFLAGS ?= -M vexpress-a15 -cpu cortex-a15 -kernel
+QEMUFLAGS ?= -M vexpress-a9 -cpu cortex-a9 -s -S -kernel
 
 BINDIR = out
 KDIR = kernel
@@ -26,13 +26,13 @@ LIBGCC = /opt/homebrew/Cellar/arm-none-eabi-gcc/10.3-2021.07/gcc/bin/../lib/gcc/
 
 VPATH = $(BINDIR) $(KDIR)
 
-qemu: kernel.elf
-	$(QEMU) $(QEMUFLAGS) $(BINDIR)/$< -nographic
+qemu:
+	$(QEMU) $(QEMUFLAGS) Debug/FultronOS.elf -nographic
 
 # TODO - improve rule to not require `cd` command
-kernel.elf: printf.o
-	cd $(BINDIR) &&  $(CC) $(CCFLAGS) $(LDFLAGS) -o $@ -ffreestanding _start.o start.o putc.o printf.o -lgcc -lm -lg && cd ..
-	# cd $(BINDIR) && $(CC) $(CCFLAGS) $(LDFLAGS) _start.o start.o putc.o printf.o -o $@ -L$(LIBGCC) -lgcc -L$(LIBM) -lm -L$(LIBG) -lg && cd ..
+# kernel.elf: printf.o
+# 	cd $(BINDIR) &&  $(CC) $(CCFLAGS) $(LDFLAGS) -o $@ -ffreestanding _start.o start.o putc.o printf.o -lgcc -lm -lg && cd ..
+# 	# cd $(BINDIR) && $(CC) $(CCFLAGS) $(LDFLAGS) _start.o start.o putc.o printf.o -o $@ -L$(LIBGCC) -lgcc -L$(LIBM) -lm -L$(LIBG) -lg && cd ..
 
 printf.o: putc.o
 	$(CC) $(CCFLAGS) -c $(KDIR)/printf.c -o $(BINDIR)/$@
