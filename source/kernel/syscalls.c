@@ -38,6 +38,11 @@ char *__env[1] = {0};
 char **environ = __env;
 
 #define PUTC_ADDR 0x1c090000
+// #define PUTC_ADDR 0x10009000
+// #define UART0_BASE 0xe0000000
+// #define UART0_TxRxFIFO0 ((unsigned int *) (UART0_BASE + 0x30))
+// #define PUTC_ADDR UART0_TxRxFIFO0
+
 volatile uint8_t *uart_base = (uint8_t *)PUTC_ADDR;
 
 int _putchar(int ch)

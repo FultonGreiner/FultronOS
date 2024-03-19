@@ -1,14 +1,16 @@
 #include "stdio.h"
 
 #include <stdarg.h>
-// #include <stdio.h>
 #include <stdint.h>
-#include <string.h>
 
-int count_args(const char *s) {
+#include "serial.h"
+
+int count_args(const char *s)
+{
     int count = 0;
     while (*s != '\0') {
-        if (*s == '%' && *(s - 1) != '\\') {
+        if (*s == '%' && *(s - 1) != '\\')
+        {
             s++;
             count++;
         }
@@ -17,44 +19,61 @@ int count_args(const char *s) {
     return count;
 }
 
-void kprintf(const char *s, uart_t *addr, ...)
+void kprintf(const char *s, ...)
 {
     int size = count_args(s);
     va_list args;
-    va_start(args, addr);
+    va_start(args, s);
 
-    while ( *s != '\0' ) {
-        if ( (*s == '%') ) {
+    while ( *s != '\0' )
+    {
+        if ( (*s == '%') )
+        {
             s++;
-            switch (*s) {
-                case 'd': {
+            switch (*s)
+            {
+                case 'd':
+                {
                     int d = va_arg(args, int);
-                    kputc('0' + d, addr);
+                    _putchar('0' + d);
                     break;
                 }
-                case 's': {
+                case 's':
+                {
                     char *str = va_arg(args, char *);
-                    while (*str != '\0') {
-                        kputc(*str, addr);
+                    while (*str != '\0')
+                    {
+                        _putchar(*str);
                         str++;
                     }
                     break;
                 }
-                case 'c': {
+                case 'c':
+                {
                     int c = va_arg(args, int);
-                    kputc(c, addr);
+                    _putchar(c);
                     break;
                 }
-                case 'f': {
+                case 'f':
+                {
                     double f = va_arg(args, double);
                     int f_int = (int) f;
-                    kputc('0' + f_int, addr);
+                    _putchar('0' + f_int);
+                    _putchar('.');
+
+                    for (int i = 0; i < 1; i++)
+                    {
+                        f_int = (int) (f * 10) - (f_int * 10);
+                        _putchar('0' + f_int);
+                    }
                     break;
                 }
             }
             size--;
-        } else {
-            kputc(*s, addr);
+        }
+        else
+        {
+            _putchar(*s);
         }
         s++;
     }

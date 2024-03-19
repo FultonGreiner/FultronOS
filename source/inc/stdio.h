@@ -7,7 +7,6 @@
 #include "uart.h"
 
 void kputc(char, uart_t*);
-// void kprintf(const char *, uart_t*, ...);
-void kprintf(const char *s, uart_t *addr, ...);
+void kprintf(const char *s, ...);
 
 #endif                                                          /* _STDIO_H_ */

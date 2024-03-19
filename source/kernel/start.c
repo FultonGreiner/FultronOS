@@ -14,8 +14,14 @@ void start()
     int d = (int) (3.0f / 1.0f);
     printf("3.0 / 1.0 = %d\n", d);
 
-    // float f = 3.0f / 4.0f;
+    // double f = 3.0f / 4.0f;
     float f = 0.666;
-    printf("3 / 4 = %f\n", f);
+    printf("0.666 = %f\n", f);
+
+    // double f2 = (float)d;
+    float f2 = 3.0f / 4.0f;
+    printf("3 / 4 = %f\n", f2);
+
+    printf("3 / 4 = %x\n", f2);
     // kprintf("3.0 / 1.0 = %d\n", uart, d);
 }

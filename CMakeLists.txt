@@ -28,7 +28,8 @@ set (NO_BUILTIN                       "-fno-builtin") # removing causes undefine
 set (NO_STACK_PROTECTOR               "-fno-stack-protector")
 set (M_CPU_CORTEX_A8                  "-mcpu=cortex-a8")
 set (M_FPU_NEON_VFPV3                 "-mfpu=neon-vfpv3")
-set (M_FLOAT_ABI_SOFT                 "-mfloat-abi=hard")
+set (MFPU_FPV5_SP_D16                 "-mfpu=fpv5-sp-d16")
+set (M_FLOAT_ABI_SOFT                 "-mfloat-abi=soft")
 set (M_FLOAT_ABI_HARD                 "-mfloat-abi=hard")
 set (M_FLOAT_ABI_SOFTFP               "-mfloat-abi=softfp")
 set (M_THUMB                          "-mthumb")
@@ -47,8 +48,8 @@ set (GENERATE_MAP_FILE        "-Wl,-Map=${PROJECT_NAME}.map")
 set (LINKER_SCRIPT            ${PROJECT_LINKER_SCRIPT})
 # set (MARCH                    ${MARCH_ARMV7A})
 set (MCPU                     ${MCPU_CORTEX_A15})
-set (MFPU                 	  -mfpu=fpv5-sp-d16)
-set (MFLOAT_ABI               ${M_FLOAT_ABI_SOFTFP})
+# set (MFPU                 	  ${MFPU_FPV5_SP_D16})
+# set (MFLOAT_ABI               ${M_FLOAT_ABI_SOFTFP})
 set (RUNTIME_LIBRARY          ${RUNTIME_LIBRARY_REDUCED_C})
 set (RUNTIME_LIBRARY_SYSCALLS ${RUNTIME_LIBRARY_SYSCALLS_MINIMAL})
 
@@ -59,13 +60,13 @@ set (INCLUDE_DIR              ${SOURCE_DIR}/inc)
 set (LIB_DIR                  ${SOURCE_DIR}/lib)
 
 set (PROJECT_SOURCES
-    ${KERNEL_DIR}/_start.s 
-    # ${KERNEL_DIR}/printf.c 
-    # ${KERNEL_DIR}/putc.c 
-    ${KERNEL_DIR}/start.c
-    ${KERNEL_DIR}/syscalls.c
+    ${KERNEL_DIR}/printf.c 
+    ${KERNEL_DIR}/putc.c 
 
-    ${LIB_DIR}/printf.c
+    source/drivers/serial/serial.c
+
+    source/arch/i686/entry.s
+    source/arch/i686/kernel.c
     )
 
 set (PROJECT_DEFINES
@@ -74,7 +75,7 @@ set (PROJECT_DEFINES
 set (PROJECT_INCLUDES
 	# LIST INCLUDE DIRECTORIES HERE
     ${INCLUDE_DIR}
-    ${LIB_DIR}
+    source/drivers/serial
     )
 
 project(${PROJECT_NAME} ASM C)
@@ -97,16 +98,17 @@ include_directories (${PROJECT_INCLUDES})
 
 set (CMAKE_EXECUTABLE_SUFFIX ".elf")
 
-set (DEBUG_FLAGS "-g3 -O0")
-set (CMAKE_C_FLAGS_DEBUG "${DEBUG_FLAGS}")
-set (CMAKE_ASM_FLAGS_DEBUG "${DEBUG_FLAGS}")
+# set (DEBUG_FLAGS                  "-g3 -O0")
+set (CMAKE_C_FLAGS_DEBUG          "${DEBUG_FLAGS}")
+set (CMAKE_ASM_FLAGS_DEBUG        "${DEBUG_FLAGS}")
 set (CMAKE_EXE_LINKER_FLAGS_DEBUG "${DEBUG_FLAGS}")
 
-set (RELEASE_FLAGS "-g0 -O3")
-set (CMAKE_C_FLAGS_RELEASE "${RELEASE_FLAGS}")
-set (CMAKE_ASM_FLAGS_RELEASE "${RELEASE_FLAGS}")
-set (CMAKE_EXE_LINKER_FLAGS_RELEASE "${RELEASE_FLAGS}")
+# i686
+set (CMAKE_ASM_FLAGS        "")
+set (CMAKE_C_FLAGS          "-ffreestanding -Wall -Wextra")
+set (CMAKE_EXE_LINKER_FLAGS "-T ${CMAKE_SOURCE_DIR}/source/arch/i686/link.ld -nostdlib -lgcc")
 
-set (CMAKE_C_FLAGS "${F_FREESTANDING} ${W_ALL} ${W_EXTRA} ${W_ERROR} ${RUNTIME_LIBRARY} ${NO_STARTFILES} ${NO_STDLIB} ${NO_BUILTIN} ${NO_STACK_PROTECTOR} ${MARCH} ${MCPU} ${MFPU} ${MFLOAT_ABI} ${M_THUMB}")
-set (CMAKE_EXE_LINKER_FLAGS "${GENERATE_MAP_FILE} ${RUNTIME_LIBRARY_SYSCALLS} ${PROJECT_LINKER_SCRIPT} ${F_FREESTANDING} ${WL_GC_SECTIONS} ${STATIC} ${WL_LIBS}")
-set (CMAKE_ASM_FLAGS "${CMAKE_C_FLAGS} ${X_ASSEMBLER_WITH_CPP}")
+set (RELEASE_FLAGS                  "-g0 -O3")
+set (CMAKE_C_FLAGS_RELEASE          "${RELEASE_FLAGS}")
+set (CMAKE_ASM_FLAGS_RELEASE        "${RELEASE_FLAGS}")
+set (CMAKE_EXE_LINKER_FLAGS_RELEASE "${RELEASE_FLAGS}")
