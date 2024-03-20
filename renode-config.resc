@@ -1,0 +1,25 @@
+# Filename: renode-config.resc
+$bin?=@Debug/FultronOS.elf
+
+# Create Machine & Load config
+mach create
+machine LoadPlatformDescription @platforms/cpus/zynq-7000.repl
+
+# Create a terminal window showing the output of UART0
+showAnalyzer sysbus.uart0
+
+# Enable GDB
+machine StartGdbServer 1234
+
+macro reset
+"""
+    sysbus LoadELF $bin
+"""
+
+# sysbus LogAllPeripheralsAccess true
+
+# sysbus.cpu LogFunctionNames true
+
+runMacro $reset
+
+# start

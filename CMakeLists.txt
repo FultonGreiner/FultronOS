@@ -5,51 +5,42 @@ cmake_minimum_required(VERSION 3.20)
 set (PROJECT_TYPE_EXECUTABLE          "exe")
 
 set (MARCH_ARMV7A                     "-march=armv7-a")
-set (MCPU_CORTEX_A8				      "-mcpu=cortex-a8")
 set (MCPU_CORTEX_A9				      "-mcpu=cortex-a9")
-set (MCPU_CORTEX_A15				  "-mcpu=cortex-a15")
-set (MFPU_NEON_VFPV3                  "-mfpu=neon-vfpv3")
-# set (RUNTIME_LIBRARY_REDUCED_C        "--specs=nano.specs")
+set (MFPU_VFPV3                       "-mfpu=vfpv3")
 set (RUNTIME_LIBRARY_SYSCALLS_MINIMAL "--specs=nosys.specs")
-set (MFLOAT_ABI_SOFTWARE              "-mfloat-abi=soft")
 set (MFLOAT_ABI_HARDWARE              "-mfloat-abi=hard")
-set (MFLOAT_ABI_MIX                   "-mfloat-abi=softfp")
 
 # -Wl,--print-memory-usage
-set (F_FREESTANDING                   "-ffreestanding") # might be no standard libraries, don't start at 'main', standard functions may not have their usual definitions
-set (W_ALL                            "-Wall")
-set (W_EXTRA                          "-Wextra")
-set (W_ERROR                          "-Werror")
-set (STATIC                           "-static")
-set (WL_GC_SECTIONS                   "-Wl,--gc-sections")
-set (NO_STARTFILES                    "-nostartfiles")
-# set (NO_STDLIB                        "-nostdlib") # required for newlib
+set (FFREESTANDING                    "-ffreestanding") # might be no standard libraries, don't start at 'main', standard functions may not have their usual definitions
+# set (W_ALL                            "-Wall")
+# set (W_EXTRA                          "-Wextra")
+# set (W_ERROR                          "-Werror")
+# set (STATIC                           "-static")
+# set (WL_GC_SECTIONS                   "-Wl,--gc-sections")
 set (NO_BUILTIN                       "-fno-builtin") # removing causes undefined references to __aeabi_uldivmod
-set (NO_STACK_PROTECTOR               "-fno-stack-protector")
-set (M_CPU_CORTEX_A8                  "-mcpu=cortex-a8")
-set (M_FPU_NEON_VFPV3                 "-mfpu=neon-vfpv3")
-set (MFPU_FPV5_SP_D16                 "-mfpu=fpv5-sp-d16")
-set (M_FLOAT_ABI_SOFT                 "-mfloat-abi=soft")
-set (M_FLOAT_ABI_HARD                 "-mfloat-abi=hard")
-set (M_FLOAT_ABI_SOFTFP               "-mfloat-abi=softfp")
-set (M_THUMB                          "-mthumb")
+set (NO_STARTFILES                    "-nostartfiles")
+set (NO_STDLIB                        "-nostdlib") # required for newlib
 set (WL_LIBS                          "-Wl,--start-group -lc -lm -Wl,--end-group")
-set (X_ASSEMBLER_WITH_CPP             "-x assembler-with-cpp")
 
+set (MLITTLE_ENDIAN                   "-mlittle-endian")
+
+# set (NO_STACK_PROTECTOR               "-fno-stack-protector")
 # -ffunction-sections -fdata-sections
 
 ###################### VARIABLES ######################################
 set (PROJECT_NAME             "FultronOS")
 set (PROJECT_TYPE             ${PROJECT_TYPE_EXECUTABLE})
 
-set (PROJECT_LINKER_SCRIPT    "-T ${CMAKE_SOURCE_DIR}/source/kernel/link.ld")
+set (PROJECT_LINKER_SCRIPT    "-T ${CMAKE_SOURCE_DIR}/source/arch/zynq-7000/link.ld")
 set (GENERATE_MAP_FILE        "-Wl,-Map=${PROJECT_NAME}.map")
 
 set (LINKER_SCRIPT            ${PROJECT_LINKER_SCRIPT})
-# set (MARCH                    ${MARCH_ARMV7A})
-set (MCPU                     ${MCPU_CORTEX_A15})
-# set (MFPU                 	  ${MFPU_FPV5_SP_D16})
-# set (MFLOAT_ABI               ${M_FLOAT_ABI_SOFTFP})
+
+set (MARCH                    ${MARCH_ARMV7A})
+set (MCPU                     ${MCPU_CORTEX_A9})
+set (MENDIAN                  ${MLITTLE_ENDIAN})
+set (MFLOAT_ABI               ${M_FLOAT_ABI_HARD})
+set (MFPU                 	  ${MFPU_VFPV3})
 set (RUNTIME_LIBRARY          ${RUNTIME_LIBRARY_REDUCED_C})
 set (RUNTIME_LIBRARY_SYSCALLS ${RUNTIME_LIBRARY_SYSCALLS_MINIMAL})
 
@@ -59,14 +50,16 @@ set (KERNEL_DIR               ${SOURCE_DIR}/kernel)
 set (INCLUDE_DIR              ${SOURCE_DIR}/inc)
 set (LIB_DIR                  ${SOURCE_DIR}/lib)
 
+# -nostartfiles -nostdlib -fno-builtin -mthumb
+
 set (PROJECT_SOURCES
-    ${KERNEL_DIR}/printf.c 
-    ${KERNEL_DIR}/putc.c 
-
-    source/drivers/serial/serial.c
-
-    source/arch/i686/entry.s
-    source/arch/i686/kernel.c
+    source/arch/zynq-7000/_start.s
+    source/drivers/uart/uart-zynq.c
+    source/kernel/start.c
+    source/kernel/syscalls.c
+    source/kernel/sysmem.c
+    source/lib/_putchar.c
+    source/lib/printf.c
     )
 
 set (PROJECT_DEFINES
@@ -74,8 +67,8 @@ set (PROJECT_DEFINES
 
 set (PROJECT_INCLUDES
 	# LIST INCLUDE DIRECTORIES HERE
-    ${INCLUDE_DIR}
-    source/drivers/serial
+    source/drivers/uart
+    source/lib
     )
 
 project(${PROJECT_NAME} ASM C)
@@ -98,17 +91,51 @@ include_directories (${PROJECT_INCLUDES})
 
 set (CMAKE_EXECUTABLE_SUFFIX ".elf")
 
-# set (DEBUG_FLAGS                  "-g3 -O0")
-set (CMAKE_C_FLAGS_DEBUG          "${DEBUG_FLAGS}")
-set (CMAKE_ASM_FLAGS_DEBUG        "${DEBUG_FLAGS}")
-set (CMAKE_EXE_LINKER_FLAGS_DEBUG "${DEBUG_FLAGS}")
-
-# i686
-set (CMAKE_ASM_FLAGS        "")
-set (CMAKE_C_FLAGS          "-ffreestanding -Wall -Wextra")
-set (CMAKE_EXE_LINKER_FLAGS "-T ${CMAKE_SOURCE_DIR}/source/arch/i686/link.ld -nostdlib -lgcc")
+set (DEBUG_FLAGS                  "-g3 -O0")
+set (CMAKE_C_FLAGS_DEBUG          ${DEBUG_FLAGS})
+set (CMAKE_ASM_FLAGS_DEBUG        ${DEBUG_FLAGS})
 
 set (RELEASE_FLAGS                  "-g0 -O3")
-set (CMAKE_C_FLAGS_RELEASE          "${RELEASE_FLAGS}")
-set (CMAKE_ASM_FLAGS_RELEASE        "${RELEASE_FLAGS}")
-set (CMAKE_EXE_LINKER_FLAGS_RELEASE "${RELEASE_FLAGS}")
+set (CMAKE_C_FLAGS_RELEASE          ${RELEASE_FLAGS})
+set (CMAKE_ASM_FLAGS_RELEASE        ${RELEASE_FLAGS})
+
+string (JOIN " " CMAKE_ASM_FLAGS
+    ${FFREESTANDING}
+    ${MARCH}
+    ${MCPU}
+    ${MENDIAN}
+    ${MFLOAT_ABI}
+    ${MFPU}
+    ${NO_STARTFILES}
+    ${NO_STDLIB}
+    # ${NO_BUILTIN}
+    # ${XASSEMBLER_WITH_CPP}
+)
+
+string (JOIN " " CMAKE_C_FLAGS
+    ${FFREESTANDING}
+    ${MARCH}
+    ${MCPU}
+    ${MENDIAN}
+    ${MFLOAT_ABI}
+    ${MFPU}
+    ${NO_STARTFILES}
+    # ${NO_STDLIB}
+    ${NO_BUILTIN}
+    # "-L/Applications/ArmGNUToolchain/13.2.Rel1/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/libgcc.a"
+    # "-lgcc"
+    # "-mthumb"
+    ${WL_LIBS}
+)
+
+string (JOIN " " CMAKE_EXE_LINKER_FLAGS
+    ${GENERATE_MAP_FILE} 
+    # ${NO_STDLIB}
+    ${PROJECT_LINKER_SCRIPT}
+    ${NO_BUILTIN}
+    ${RUNTIME_LIBRARY_SYSCALLS}
+    # "-L/Applications/ArmGNUToolchain/13.2.Rel1/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/libgcc.a"
+    # "-lgcc"
+    # "-mthumb"
+    ${WL_LIBS}
+)

@@ -1,27 +1,53 @@
-// #include <stdio.h>
-#include <stdint.h>
-#include <string.h>
-// #include <math.h>
+/*
+ *  uart-zynq-main.c
+ *
+ *  Simple test for uart-zynq driver
+ *
+ *  2017.05.23 Created
+ *
+ */
 
-// #include "stdio.h"
-// #include "uart.h"
 #include "printf.h"
+#include "uart-zynq.h"
 
-// uart_t *uart = (uint8_t *) UART_BASE;
+/*---------------------------------------------------------------------------
+** Entry conditions:    None.
+**
+** Exit conditions:     None.
+**
+** Purpose:             Entry point to the application.
+**
+** Parameters:          Void.
+**
+** Returns:             Void.
+**
+** Notes:
+*/
 
-void start()
+int main()
 {
-    int d = (int) (3.0f / 1.0f);
-    printf("3.0 / 1.0 = %d\n", d);
+    char ch[6] = "R:  ";
+    float f = 3.14159;
+    uart_initialise();
 
-    // double f = 3.0f / 4.0f;
-    float f = 0.666;
-    printf("0.666 = %f\n", f);
+    printf("HERE!\r\n");
 
-    // double f2 = (float)d;
-    float f2 = 3.0f / 4.0f;
-    printf("3 / 4 = %f\n", f2);
+    printf("UART1_BASE: 0x%x\r\n", UART1_BASE);
+    printf("UART2_BASE: 0x%x\r\n", UART2_BASE);
+    printf("Float test: %0.5f\r\n", f);
 
-    printf("3 / 4 = %x\n", f2);
-    // kprintf("3.0 / 1.0 = %d\n", uart, d);
+    while (1)
+    {
+        /*
+        * Read the character, and then
+        * print out with formatter.
+        */
+
+        ch[3] = read_uart_char(UART1_BASE);
+        write_uart_string(UART1_BASE, ch);
+        write_uart_char(UART1_BASE, '\n');
+        write_uart_char(UART1_BASE, '\r');
+    }
+
+    return 0;
 }
