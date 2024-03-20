@@ -1,0 +1,3 @@
+# tests.yaml
+- robot:
+    - tests/test-basic.robot

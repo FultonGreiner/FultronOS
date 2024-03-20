@@ -7,6 +7,8 @@
  *
  */
 
+#include <string.h>
+
 #include "printf.h"
 #include "uart-zynq.h"
 
@@ -24,17 +26,23 @@
 ** Notes:
 */
 
+#define RX_BUFFER_SIZE 100
+static char rx_buffer[RX_BUFFER_SIZE] = {0};
+size_t rx_buffer_index = 0;
+
+#define STATUS_BUFFER_SIZE 100
+static char status_buffer[STATUS_BUFFER_SIZE] = {0};
+
+#define CARRIAGE_RETURN (0xDUL)
+#define BACKSPACE       (0x8UL)
+
 int main()
 {
     char ch[6] = "R:  ";
     float f = 3.14159;
     uart_initialise();
 
-    printf("HERE!\r\n");
-
-    printf("UART1_BASE: 0x%x\r\n", UART1_BASE);
-    printf("UART2_BASE: 0x%x\r\n", UART2_BASE);
-    printf("Float test: %0.5f\r\n", f);
+    printf("Hello, world!\r\n");
 
     while (1)
     {
@@ -43,10 +51,25 @@ int main()
         * print out with formatter.
         */
 
-        ch[3] = read_uart_char(UART1_BASE);
-        write_uart_string(UART1_BASE, ch);
-        write_uart_char(UART1_BASE, '\n');
-        write_uart_char(UART1_BASE, '\r');
+        memset((void*)rx_buffer, 0, RX_BUFFER_SIZE);
+        memset((void*)status_buffer, 0, STATUS_BUFFER_SIZE);
+
+        printf("\r\n> ");
+
+        char c = 0;
+        rx_buffer_index = 0;
+
+        int i = 0;
+        do
+        {
+            rx_buffer[i] = read_uart_char(UART1_BASE);
+            // if ( BACKSPACE == rx_buffer[i] )
+            // {
+            //     printf("BACKSPACE\n\r");
+            // }
+            write_uart_char(UART1_BASE, rx_buffer[i]);
+            i++;
+        } while ( CARRIAGE_RETURN != rx_buffer[i++] );
     }
 
     return 0;
