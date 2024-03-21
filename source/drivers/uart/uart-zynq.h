@@ -77,7 +77,8 @@
                                         /*  1 : FIFO not empty   */
                                         /*  0 : FIFO empty       */
 
-struct XUARTPS{
+struct XUARTPS
+{
     unsigned int Control_reg0;             /* UART Control Register                   */
     unsigned int mode_reg0;                /* UART Mode Register                      */
     unsigned int Intrpt_en_reg0;           /* Interrupt Enable Register               */
@@ -100,37 +101,11 @@ static unsigned int default_uart_id;
 static struct XUARTPS *UART1 = (struct XUARTPS*) UART1_BASE;
 static struct XUARTPS *UART2=(struct XUARTPS*) UART2_BASE;
 
-
-void
-uart1_initialise(
-     void
-);
-
-void
-uart2_initialise(
-     void
-);
-
-void
-uart_init(
-     void
-);
-
-unsigned char
-uart_read_byte(
-     unsigned int uart_id
-);
-
-void
-uart_write_byte(
-     unsigned int uart_id,
-     unsigned char ch
-);
-
-void
-write_uart_string(
-     unsigned int uart_id,
-     const char *string
-);
+void uart1_initialise(void);
+void uart2_initialise(void);
+void uart_init(void);
+unsigned char uart_read_byte(unsigned int uart_id);
+void uart_write_byte(unsigned int uart_id, unsigned char ch);
+void write_uart_string(unsigned int uart_id, const char *string);
 
 #endif /* _UART_ZYNQ_H */
