@@ -98,11 +98,18 @@ struct XUARTPS
     unsigned int Tx_FIFO_trigger_level0;   /* Transmitter FIFO Trigger Level Register */
 };
 
+// typedef enum uart_id
+// {
+//     UART1 = 0,
+//     UART2,
+//     UART_NUM,
+// } uart_id_t;
+
 static unsigned int default_uart_id;
 static struct XUARTPS *UART1 = (struct XUARTPS*) UART1_BASE;
 static struct XUARTPS *UART2=(struct XUARTPS*) UART2_BASE;
 
-void uart1_initialise(void);
+void uart1_init(void);
 void uart2_initialise(void);
 void uart_init(void);
 uint8_t uart_read_byte(unsigned int uart_id);

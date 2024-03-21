@@ -25,7 +25,7 @@
 **
 ** Notes:               Based upon the definition of UART1_BASE.
 */
-void uart1_initialise(void)
+void uart1_init(void)
 {
     /* Disable UART */
     UART1->Control_reg0 = 0;
@@ -83,7 +83,7 @@ void uart2_initialise(void)
 */
 void uart_init(void)
 {
-    uart1_initialise();
+    uart1_init();
     uart2_initialise();
 }
 
