@@ -117,7 +117,7 @@ uart_init(
 );
 
 unsigned char
-read_uart_char(
+uart_read_byte(
      unsigned int uart_id
 );
 

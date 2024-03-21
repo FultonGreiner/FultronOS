@@ -39,7 +39,7 @@ int main(void)
         int i = 0;
         do
         {
-            rx_buffer[i] = read_uart_char(UART1_BASE);
+            rx_buffer[i] = uart_read_byte(UART1_BASE);
             uart_write_byte(UART1_BASE, rx_buffer[i]);
         } while ( CARRIAGE_RETURN != rx_buffer[i++] );
 

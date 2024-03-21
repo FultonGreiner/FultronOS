@@ -106,7 +106,7 @@ uart_init(
 **                      character is available to read.
 */
 unsigned char
-read_uart_char(
+uart_read_byte(
     unsigned int uart_id
 ) {
   if (uart_id == UART1_BASE) {
