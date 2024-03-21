@@ -25,6 +25,7 @@ int main(void)
     uart_init(UART1_ID);
 
     printf("\nHello, world!\r\n");
+    printf("The size of unsigned int is %d bytes.\r\n", sizeof(unsigned int));
 
     while (1)
     {

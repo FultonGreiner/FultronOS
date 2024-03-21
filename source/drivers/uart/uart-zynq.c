@@ -195,7 +195,7 @@ void uart_write_byte(unsigned int uart_id, uint8_t ch)
 **                      end function used to write the character.
 **                      The string must be null-terminated (\0).
 */
-void write_uart_string(unsigned int uart_id, const char *string)
+void uart_write_bytes(unsigned int uart_id, const char *string)
 {
     while (*string != '\0')
     {

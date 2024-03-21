@@ -80,22 +80,22 @@
 
 struct XUARTPS
 {
-    unsigned int Control_reg0;             /* UART Control Register                   */
-    unsigned int mode_reg0;                /* UART Mode Register                      */
-    unsigned int Intrpt_en_reg0;           /* Interrupt Enable Register               */
-    unsigned int Intrpt_dis_reg0;          /* Interrupt Disable Register              */
-    unsigned int Intrpt_mask_reg0;         /* Interrupt Mask Register                 */
-    unsigned int Chnl_int_sts_reg0;        /* Channel Interrupt Status Register       */
-    unsigned int Baud_rate_gen_reg0;       /* Baud Rate Generator Register            */
-    unsigned int Rcvr_timeout_reg0;        /* Receiver Timeout Register               */
-    unsigned int Rcvr_FIFO_trigger_level0; /* Receiver FIFO Trigger Level Register    */
-    unsigned int Modem_ctrl_reg0;          /* Modem Control Register                  */
-    unsigned int Modem_sts_reg0;           /* Modem Status Register                   */
-    unsigned int Channel_sts_reg0;         /* Channel Status Register                 */
-    unsigned int TX_RX_FIFO0;              /* Transmit and Receive FIFO               */
-    unsigned int Baud_rate_divider_reg0;   /* Baud Rate Divider                       */
-    unsigned int Flow_delay_reg0;          /* Flow Control Delay Register             */
-    unsigned int Tx_FIFO_trigger_level0;   /* Transmitter FIFO Trigger Level Register */
+    uint32_t Control_reg0;             /* UART Control Register                   */
+    uint32_t mode_reg0;                /* UART Mode Register                      */
+    uint32_t Intrpt_en_reg0;           /* Interrupt Enable Register               */
+    uint32_t Intrpt_dis_reg0;          /* Interrupt Disable Register              */
+    uint32_t Intrpt_mask_reg0;         /* Interrupt Mask Register                 */
+    uint32_t Chnl_int_sts_reg0;        /* Channel Interrupt Status Register       */
+    uint32_t Baud_rate_gen_reg0;       /* Baud Rate Generator Register            */
+    uint32_t Rcvr_timeout_reg0;        /* Receiver Timeout Register               */
+    uint32_t Rcvr_FIFO_trigger_level0; /* Receiver FIFO Trigger Level Register    */
+    uint32_t Modem_ctrl_reg0;          /* Modem Control Register                  */
+    uint32_t Modem_sts_reg0;           /* Modem Status Register                   */
+    uint32_t Channel_sts_reg0;         /* Channel Status Register                 */
+    uint32_t TX_RX_FIFO0;              /* Transmit and Receive FIFO               */
+    uint32_t Baud_rate_divider_reg0;   /* Baud Rate Divider                       */
+    uint32_t Flow_delay_reg0;          /* Flow Control Delay Register             */
+    uint32_t Tx_FIFO_trigger_level0;   /* Transmitter FIFO Trigger Level Register */
 };
 
 typedef enum uart_id
@@ -105,12 +105,9 @@ typedef enum uart_id
     UART_ID_NUM,
 } uart_id_t;
 
-// void uart1_init(void);
-// void uart2_init(void);
-// void uart_init(void);
-void uart_init(uart_id_t uart_id);
+void    uart_init(uart_id_t uart_id);
 uint8_t uart_read_byte(unsigned int uart_id);
-void uart_write_byte(unsigned int uart_id, uint8_t ch);
-void write_uart_string(unsigned int uart_id, const char *string);
+void    uart_write_byte(unsigned int uart_id, uint8_t ch);
+void    uart_write_bytes(unsigned int uart_id, const char *string);
 
 #endif /* _UART_ZYNQ_H */
