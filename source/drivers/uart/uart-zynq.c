@@ -23,20 +23,18 @@
 **
 ** Notes:               Based upon the definition of UART1_BASE.
 */
-void
-uart1_initialise(
-    void
-) {
-  /* Disable UART */
-  UART1->Control_reg0 = 0;
+void uart1_initialise(void)
+{
+    /* Disable UART */
+    UART1->Control_reg0 = 0;
 
-  /* 115200 8N1 */
-  UART1->Baud_rate_divider_reg0 = XUARTPS_BDIV_CD_115200;
-  UART1->Baud_rate_gen_reg0 = XUARTPS_BRGR_CD_115200;
-  UART1->mode_reg0 = XUARTPS_MR_PAR_NONE;
+    /* 115200 8N1 */
+    UART1->Baud_rate_divider_reg0 = XUARTPS_BDIV_CD_115200;
+    UART1->Baud_rate_gen_reg0 = XUARTPS_BRGR_CD_115200;
+    UART1->mode_reg0 = XUARTPS_MR_PAR_NONE;
 
-  /* Enable UART */
-  UART1->Control_reg0 =  (XUARTPS_CR_TXEN | XUARTPS_CR_RXEN | XUARTPS_CR_TXRES | XUARTPS_CR_RXRES);
+    /* Enable UART */
+    UART1->Control_reg0 =  (XUARTPS_CR_TXEN | XUARTPS_CR_RXEN | XUARTPS_CR_TXRES | XUARTPS_CR_RXRES);
 }
 
 /*---------------------------------------------------------------------------
@@ -53,20 +51,18 @@ uart1_initialise(
 **
 ** Notes:               Based upon the definition of UART2_BASE.
 */
-void
-uart2_initialise(
-    void
-) {
-  /* Disable UART */
-  UART2->Control_reg0 = 0; 
+void uart2_initialise(void)
+{
+    /* Disable UART */
+    UART2->Control_reg0 = 0; 
 
-  /* 115200 8N1 */
-  UART2->Baud_rate_divider_reg0 = XUARTPS_BDIV_CD_115200;
-  UART2->Baud_rate_gen_reg0 = XUARTPS_BRGR_CD_115200;
-  UART2->mode_reg0 = XUARTPS_MR_PAR_NONE;
-  
-  /* Enable UART */
-  UART2->Control_reg0 =  (XUARTPS_CR_TXEN | XUARTPS_CR_RXEN | XUARTPS_CR_TXRES | XUARTPS_CR_RXRES);
+    /* 115200 8N1 */
+    UART2->Baud_rate_divider_reg0 = XUARTPS_BDIV_CD_115200;
+    UART2->Baud_rate_gen_reg0 = XUARTPS_BRGR_CD_115200;
+    UART2->mode_reg0 = XUARTPS_MR_PAR_NONE;
+    
+    /* Enable UART */
+    UART2->Control_reg0 =  (XUARTPS_CR_TXEN | XUARTPS_CR_RXEN | XUARTPS_CR_TXRES | XUARTPS_CR_RXRES);
 }
 
 /*---------------------------------------------------------------------------
@@ -83,12 +79,10 @@ uart2_initialise(
 **
 ** Notes:               None.
 */
-void
-uart_init(
-    void
-) {
-  uart1_initialise();
-  uart2_initialise();
+void uart_init(void)
+{
+    uart1_initialise();
+    uart2_initialise();
 }
 
 /*---------------------------------------------------------------------------
@@ -105,20 +99,20 @@ uart_init(
 ** Notes:               This function is blocking and will wait until a
 **                      character is available to read.
 */
-unsigned char
-uart_read_byte(
-    unsigned int uart_id
-) {
-  if (uart_id == UART1_BASE) {
-    while( ( (UART1->Channel_sts_reg0) & UART_STS_RXEMPTY) > 0);
+unsigned char uart_read_byte(unsigned int uart_id)
+{
+    if (uart_id == UART1_BASE)
+    {
+        while( ( (UART1->Channel_sts_reg0) & UART_STS_RXEMPTY) > 0);
 
-    return (char)(UART1->TX_RX_FIFO0);
-  }
-  else {
-    while( ( (UART2->Channel_sts_reg0) & UART_STS_RXEMPTY) > 0);
+        return (char)(UART1->TX_RX_FIFO0);
+    }
+    else
+    {
+        while( ( (UART2->Channel_sts_reg0) & UART_STS_RXEMPTY) > 0);
 
-    return (char)(UART2->TX_RX_FIFO0);
-  }
+        return (char)(UART2->TX_RX_FIFO0);
+    }
 }
 
 /*---------------------------------------------------------------------------
@@ -136,21 +130,20 @@ uart_read_byte(
 ** Notes:               This function is blocking and will wait until the
 **                      transmit buffer has space for a character.
 */
-void
-uart_write_byte(
-    unsigned int uart_id,
-    unsigned char ch
-) {
-  if(uart_id == UART1_BASE) {
-    while( ( (UART1->Channel_sts_reg0) & UART_STS_TXFULL) > 0);
+void uart_write_byte(unsigned int uart_id, unsigned char ch)
+{
+    if(uart_id == UART1_BASE)
+    {
+        while( ( (UART1->Channel_sts_reg0) & UART_STS_TXFULL) > 0);
 
-    UART1->TX_RX_FIFO0 = (unsigned int)(ch); /* Transmit char */
-  }
-  else {
-    while( ( (UART2->Channel_sts_reg0) & UART_STS_TXFULL) > 0);
-    
-    UART2->TX_RX_FIFO0 = (unsigned int)(ch); /* Transmit char */
-  }
+        UART1->TX_RX_FIFO0 = (unsigned int)(ch); /* Transmit char */
+    }
+    else
+    {
+        while( ( (UART2->Channel_sts_reg0) & UART_STS_TXFULL) > 0);
+        
+        UART2->TX_RX_FIFO0 = (unsigned int)(ch); /* Transmit char */
+    }
 }
 
 /*---------------------------------------------------------------------------
@@ -170,13 +163,11 @@ uart_write_byte(
 **                      end function used to write the character.
 **                      The string must be null-terminated (\0).
 */
-void
-write_uart_string(
-    unsigned int uart_id,
-    const char *string
-) {
-  while (*string != '\0') {
-    uart_write_byte(uart_id, (unsigned char) *string);
-    string++;
-  }
+void write_uart_string(unsigned int uart_id, const char *string)
+{
+    while (*string != '\0')
+    {
+        uart_write_byte(uart_id, (unsigned char) *string);
+        string++;
+    }
 }
