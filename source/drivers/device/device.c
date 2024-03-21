@@ -1,7 +1,12 @@
 #include "device.h"
 
-// int device_register(struct device * dev);
-// struct device * get_device(struct device * dev);
-// void put_device(struct device * dev);
-// void lock_device(struct device * dev);
-// void unlock_device(struct device * dev);
+static fd_t fd_count = FD_0;
+
+fd_t device_open(device_id_t device_id)
+{
+    fd_t fd = FD_INVALID;
+
+    fd = fd_count++;
+
+    return fd;
+}

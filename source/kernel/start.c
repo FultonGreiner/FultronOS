@@ -1,5 +1,6 @@
 #include <string.h>
 
+#include "device.h"
 #include "printf.h"
 #include "uart-zynq.h"
 
@@ -18,6 +19,8 @@ static char status_buffer[STATUS_BUFFER_SIZE] = {0};
 
 int main(void)
 {
+    fd_t fd = device_open(DEVICE_ID_UART1);
+
     char ch[6] = "R:  ";
     float f = 3.14159;
     uart_init(UART1_ID);
