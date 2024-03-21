@@ -11,6 +11,7 @@
 #define _UART_ZYNQ_H
 
 #include <stdbool.h>
+#include <stdint.h>
 
 /*
  * Section 19.2.3 Baud Rate Generator
@@ -104,8 +105,8 @@ static struct XUARTPS *UART2=(struct XUARTPS*) UART2_BASE;
 void uart1_initialise(void);
 void uart2_initialise(void);
 void uart_init(void);
-unsigned char uart_read_byte(unsigned int uart_id);
-void uart_write_byte(unsigned int uart_id, unsigned char ch);
+uint8_t uart_read_byte(unsigned int uart_id);
+void uart_write_byte(unsigned int uart_id, uint8_t ch);
 void write_uart_string(unsigned int uart_id, const char *string);
 
 #endif /* _UART_ZYNQ_H */

@@ -747,7 +747,7 @@ static int _vsnprintf(out_fct_type out, char* buffer, const size_t maxlen, const
             idx = _ntoa_long(out, buffer, idx, maxlen, va_arg(va, unsigned long), false, base, precision, width, flags);
           }
           else {
-            const unsigned int value = (flags & FLAGS_CHAR) ? (unsigned char)va_arg(va, unsigned int) : (flags & FLAGS_SHORT) ? (unsigned short int)va_arg(va, unsigned int) : va_arg(va, unsigned int);
+            const unsigned int value = (flags & FLAGS_CHAR) ? (uint8_t)va_arg(va, unsigned int) : (flags & FLAGS_SHORT) ? (unsigned short int)va_arg(va, unsigned int) : va_arg(va, unsigned int);
             idx = _ntoa_long(out, buffer, idx, maxlen, value, false, base, precision, width, flags);
           }
         }

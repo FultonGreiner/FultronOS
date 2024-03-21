@@ -9,6 +9,8 @@
 
 #include "uart-zynq.h"
 
+#include <stdint.h>
+
 /*---------------------------------------------------------------------------
 ** Entry conditions:    None.
 **
@@ -99,7 +101,7 @@ void uart_init(void)
 ** Notes:               This function is blocking and will wait until a
 **                      character is available to read.
 */
-unsigned char uart_read_byte(unsigned int uart_id)
+uint8_t uart_read_byte(unsigned int uart_id)
 {
     if (uart_id == UART1_BASE)
     {
@@ -130,7 +132,7 @@ unsigned char uart_read_byte(unsigned int uart_id)
 ** Notes:               This function is blocking and will wait until the
 **                      transmit buffer has space for a character.
 */
-void uart_write_byte(unsigned int uart_id, unsigned char ch)
+void uart_write_byte(unsigned int uart_id, uint8_t ch)
 {
     if(uart_id == UART1_BASE)
     {
@@ -167,7 +169,7 @@ void write_uart_string(unsigned int uart_id, const char *string)
 {
     while (*string != '\0')
     {
-        uart_write_byte(uart_id, (unsigned char) *string);
+        uart_write_byte(uart_id, (uint8_t) *string);
         string++;
     }
 }
