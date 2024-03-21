@@ -58,8 +58,8 @@ set (PROJECT_SOURCES
     source/kernel/start.c
     source/kernel/syscalls.c
     source/kernel/sysmem.c
-    source/lib/_putchar.c
-    source/lib/printf.c
+    source/lib/libfc/source/_putchar.c
+    source/lib/libfc/source/printf.c
     )
 
 set (PROJECT_DEFINES
@@ -68,7 +68,8 @@ set (PROJECT_DEFINES
 set (PROJECT_INCLUDES
 	# LIST INCLUDE DIRECTORIES HERE
     source/drivers/uart
-    source/lib
+    source/lib/libfc
+    source/lib/libfc/include
     )
 
 project(${PROJECT_NAME} ASM C)
@@ -122,7 +123,6 @@ string (JOIN " " CMAKE_C_FLAGS
     ${NO_STARTFILES}
     # ${NO_STDLIB}
     ${NO_BUILTIN}
-    # "-L/Applications/ArmGNUToolchain/13.2.Rel1/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/libgcc.a"
     # "-lgcc"
     # "-mthumb"
     ${WL_LIBS}
@@ -134,7 +134,6 @@ string (JOIN " " CMAKE_EXE_LINKER_FLAGS
     ${PROJECT_LINKER_SCRIPT}
     ${NO_BUILTIN}
     ${RUNTIME_LIBRARY_SYSCALLS}
-    # "-L/Applications/ArmGNUToolchain/13.2.Rel1/arm-none-eabi/bin/../lib/gcc/arm-none-eabi/13.2.1/libgcc.a"
     # "-lgcc"
     # "-mthumb"
     ${WL_LIBS}
