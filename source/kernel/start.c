@@ -1,7 +1,5 @@
 #include <string.h>
 
-// #include <printf.h>
-
 #include "printf.h"
 #include "uart-zynq.h"
 
