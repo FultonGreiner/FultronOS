@@ -58,7 +58,7 @@ set (PROJECT_SOURCES
     source/kernel/start.c
     source/kernel/syscalls.c
     source/kernel/sysmem.c
-    source/lib/libfc/source/_putchar.c
+    source/lib/libfc/source/putc.c
     source/lib/libfc/source/printf.c
     )
 

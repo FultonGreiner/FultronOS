@@ -46,12 +46,12 @@ extern "C" {
  * This function is declared here only. You have to write your custom implementation somewhere
  * \param character Character to output
  */
-void _putchar(char character);
+void putc(char character);
 
 
 /**
  * Tiny printf implementation
- * You have to implement _putchar if you use printf()
+ * You have to implement putc if you use printf()
  * To avoid conflicts with the regular printf() API it is overridden by macro defines
  * and internal underscore-appended functions like printf_() are used
  * \param format A string that specifies the format of the output
@@ -100,7 +100,7 @@ int vprintf_(const char* format, va_list va);
 
 /**
  * printf with output function
- * You may use this as dynamic alternative to printf() with its fixed _putchar() output
+ * You may use this as dynamic alternative to printf() with its fixed putc() output
  * \param out An output function which takes one character and an argument pointer
  * \param arg An argument pointer for user data passed to output function
  * \param format A string that specifies the format of the output
