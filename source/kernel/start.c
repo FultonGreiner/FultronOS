@@ -40,8 +40,8 @@ int main(void)
         int i = 0;
         do
         {
-            rx_buffer[i] = uart_read_byte(UART1_BASE);
-            uart_write_byte(UART1_BASE, rx_buffer[i]);
+            rx_buffer[i] = uart_read_byte(UART1_ID);
+            uart_write_byte(UART1_ID, rx_buffer[i]);
         } while ( CARRIAGE_RETURN != rx_buffer[i++] );
 
         printf("\r\n");
