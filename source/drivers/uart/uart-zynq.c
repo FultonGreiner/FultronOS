@@ -11,6 +11,16 @@
 
 #include <stdint.h>
 
+static unsigned int default_uart_id;
+static struct XUARTPS *UART1 = (struct XUARTPS*) UART1_BASE;
+static struct XUARTPS *UART2 = (struct XUARTPS*) UART2_BASE;
+
+static struct XUARTPS *uart_interfaces[UART_ID_NUM] =
+{
+    [UART1_ID] = (struct XUARTPS*) UART1_BASE,
+    [UART2_ID] = (struct XUARTPS*) UART2_BASE,
+};
+
 /*---------------------------------------------------------------------------
 ** Entry conditions:    None.
 **
@@ -25,19 +35,19 @@
 **
 ** Notes:               Based upon the definition of UART1_BASE.
 */
-void uart1_init(void)
-{
-    /* Disable UART */
-    UART1->Control_reg0 = 0;
+// void uart1_init(void)
+// {
+//     /* Disable UART */
+//     UART1->Control_reg0 = 0;
 
-    /* 115200 8N1 */
-    UART1->Baud_rate_divider_reg0 = XUARTPS_BDIV_CD_115200;
-    UART1->Baud_rate_gen_reg0 = XUARTPS_BRGR_CD_115200;
-    UART1->mode_reg0 = XUARTPS_MR_PAR_NONE;
+//     /* 115200 8N1 */
+//     UART1->Baud_rate_divider_reg0 = XUARTPS_BDIV_CD_115200;
+//     UART1->Baud_rate_gen_reg0 = XUARTPS_BRGR_CD_115200;
+//     UART1->mode_reg0 = XUARTPS_MR_PAR_NONE;
 
-    /* Enable UART */
-    UART1->Control_reg0 =  (XUARTPS_CR_TXEN | XUARTPS_CR_RXEN | XUARTPS_CR_TXRES | XUARTPS_CR_RXRES);
-}
+//     /* Enable UART */
+//     UART1->Control_reg0 =  (XUARTPS_CR_TXEN | XUARTPS_CR_RXEN | XUARTPS_CR_TXRES | XUARTPS_CR_RXRES);
+// }
 
 /*---------------------------------------------------------------------------
 ** Entry conditions:    None.
@@ -53,19 +63,19 @@ void uart1_init(void)
 **
 ** Notes:               Based upon the definition of UART2_BASE.
 */
-void uart2_initialise(void)
-{
-    /* Disable UART */
-    UART2->Control_reg0 = 0; 
+// void uart2_init(void)
+// {
+//     /* Disable UART */
+//     UART2->Control_reg0 = 0; 
 
-    /* 115200 8N1 */
-    UART2->Baud_rate_divider_reg0 = XUARTPS_BDIV_CD_115200;
-    UART2->Baud_rate_gen_reg0 = XUARTPS_BRGR_CD_115200;
-    UART2->mode_reg0 = XUARTPS_MR_PAR_NONE;
+//     /* 115200 8N1 */
+//     UART2->Baud_rate_divider_reg0 = XUARTPS_BDIV_CD_115200;
+//     UART2->Baud_rate_gen_reg0 = XUARTPS_BRGR_CD_115200;
+//     UART2->mode_reg0 = XUARTPS_MR_PAR_NONE;
     
-    /* Enable UART */
-    UART2->Control_reg0 =  (XUARTPS_CR_TXEN | XUARTPS_CR_RXEN | XUARTPS_CR_TXRES | XUARTPS_CR_RXRES);
-}
+//     /* Enable UART */
+//     UART2->Control_reg0 =  (XUARTPS_CR_TXEN | XUARTPS_CR_RXEN | XUARTPS_CR_TXRES | XUARTPS_CR_RXRES);
+// }
 
 /*---------------------------------------------------------------------------
 ** Entry conditions:    None.
@@ -81,10 +91,30 @@ void uart2_initialise(void)
 **
 ** Notes:               None.
 */
-void uart_init(void)
+// void uart_init(void)
+// {
+//     uart1_init();
+//     uart2_init();
+// }
+
+void uart_init(uart_id_t uart_id)
 {
-    uart1_init();
-    uart2_initialise();
+    static struct XUARTPS *uart;
+
+    uart = uart_interfaces[uart_id];
+
+    /* Disable UART */
+    uart->Control_reg0 = 0;
+
+    /* 115200 8N1 */
+    uart->Baud_rate_divider_reg0 = XUARTPS_BDIV_CD_115200;
+    uart->Baud_rate_gen_reg0 = XUARTPS_BRGR_CD_115200;
+    uart->mode_reg0 = XUARTPS_MR_PAR_NONE;
+    
+    /* Enable UART */
+    uart->Control_reg0 =  (XUARTPS_CR_TXEN | XUARTPS_CR_RXEN | XUARTPS_CR_TXRES | XUARTPS_CR_RXRES);
+    
+    return;
 }
 
 /*---------------------------------------------------------------------------

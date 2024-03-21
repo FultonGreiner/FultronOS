@@ -22,7 +22,7 @@ int main(void)
 {
     char ch[6] = "R:  ";
     float f = 3.14159;
-    uart_init();
+    uart_init(UART1_ID);
 
     printf("\nHello, world!\r\n");
 
