@@ -112,7 +112,7 @@ uart2_initialise(
 );
 
 void
-uart_initialise(
+uart_init(
      void
 );
 
@@ -122,7 +122,7 @@ read_uart_char(
 );
 
 void
-write_uart_char(
+uart_write_byte(
      unsigned int uart_id,
      unsigned char ch
 );

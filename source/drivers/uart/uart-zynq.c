@@ -84,7 +84,7 @@ uart2_initialise(
 ** Notes:               None.
 */
 void
-uart_initialise(
+uart_init(
     void
 ) {
   uart1_initialise();
@@ -137,7 +137,7 @@ read_uart_char(
 **                      transmit buffer has space for a character.
 */
 void
-write_uart_char(
+uart_write_byte(
     unsigned int uart_id,
     unsigned char ch
 ) {
@@ -176,7 +176,7 @@ write_uart_string(
     const char *string
 ) {
   while (*string != '\0') {
-    write_uart_char(uart_id, (unsigned char) *string);
+    uart_write_byte(uart_id, (unsigned char) *string);
     string++;
   }
 }

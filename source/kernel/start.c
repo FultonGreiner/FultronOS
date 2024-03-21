@@ -22,7 +22,7 @@ int main(void)
 {
     char ch[6] = "R:  ";
     float f = 3.14159;
-    uart_initialise();
+    uart_init();
 
     printf("\nHello, world!\r\n");
 
@@ -40,7 +40,7 @@ int main(void)
         do
         {
             rx_buffer[i] = read_uart_char(UART1_BASE);
-            write_uart_char(UART1_BASE, rx_buffer[i]);
+            uart_write_byte(UART1_BASE, rx_buffer[i]);
         } while ( CARRIAGE_RETURN != rx_buffer[i++] );
 
         printf("\r\n");
