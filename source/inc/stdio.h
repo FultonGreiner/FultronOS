@@ -9,4 +9,4 @@
 void kputc(char, uart_t*);
 void kprintf(const char *s, ...);
 
-#endif                                                          /* _STDIO_H_ */
+#endif /* _STDIO_H_ */

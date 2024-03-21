@@ -54,6 +54,7 @@ set (LIB_DIR                  ${SOURCE_DIR}/lib)
 
 set (PROJECT_SOURCES
     source/arch/zynq-7000/_start.s
+    source/drivers/device/device.c
     source/drivers/uart/uart-zynq.c
     source/kernel/start.c
     source/kernel/syscalls.c
@@ -67,6 +68,7 @@ set (PROJECT_DEFINES
 
 set (PROJECT_INCLUDES
 	# LIST INCLUDE DIRECTORIES HERE
+    source/drivers/device
     source/drivers/uart
     source/lib/libfc
     source/lib/libfc/include

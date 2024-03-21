@@ -108,6 +108,6 @@ typedef enum uart_id
 void    uart_init(uart_id_t uart_id);
 uint8_t uart_read_byte(uart_id_t uart_id);
 void    uart_write_byte(uart_id_t uart_id, uint8_t ch);
-void    uart_write_bytes(unsigned int uart_id, const char *string);
+void    uart_write_bytes(uart_id_t uart_id, uint8_t *string);
 
 #endif /* _UART_ZYNQ_H */
