@@ -48,7 +48,6 @@ cc_toolchain_config(
         "--specs=nosys.specs",
         "-ffreestanding",
         "-fno-builtin",
-        "-march=armv7-a",
         "-mcpu=cortex-a9",
         "-mfloat-abi=hard",
         "-mfpu=vfpv3",
