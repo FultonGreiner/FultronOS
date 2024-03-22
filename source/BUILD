@@ -4,8 +4,6 @@ cc_binary(
     name = "fultronos.elf",
     srcs = [
         "start.c",
-        # "kernel/syscalls.c",
-        # "kernel/sysmem.c",
     ],
     deps = [
         "//source/arch/zynq-7000:zynq",
