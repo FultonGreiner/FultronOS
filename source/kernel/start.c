@@ -1,6 +1,5 @@
 #include <string.h>
 
-#include "device.h"
 #include "printf.h"
 #include "uart-zynq.h"
 
@@ -19,14 +18,14 @@ static char status_buffer[STATUS_BUFFER_SIZE] = {0};
 
 int main(void)
 {
-    fd_t fd = device_open(DEVICE_ID_UART1);
-
     char ch[6] = "R:  ";
     float f = 3.14159;
     uart_init(UART1_ID);
 
     printf("\nHello, world!\r\n");
-    printf("The size of unsigned int is %d bytes.\r\n", sizeof(unsigned int));
+
+    memcpy(rx_buffer, "FULTON\n", 7);
+    printf("rx_buffer: %s\r\n", rx_buffer);
 
     while (1)
     {
