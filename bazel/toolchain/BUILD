@@ -18,12 +18,12 @@ cc_toolchain(
     objcopy_files = ":all",
     strip_files = ":all",
     static_runtime_lib = ":all",
-    toolchain_config = ":my_cc_toolchain_config",
+    toolchain_config = ":arm_none_eabi_gcc_darwin_arm64_config",
 )
 
 cc_toolchain_config(
-    name = "my_cc_toolchain_config",
-    cpu = "arm64",
+    name = "arm_none_eabi_gcc_darwin_arm64_config",
+    cpu = "cortex-a9",
     compiler = "gcc",
     toolchain_identifier = "arm64_gcc",
     host_system_name = "local",
@@ -32,18 +32,17 @@ cc_toolchain_config(
     abi_version = "unknown",
     abi_libc_version = "unknown",
     tool_paths = {
-        "gcc":      "/Applications/ArmGNUToolchain/13.2.Rel1/arm-none-eabi/bin/arm-none-eabi-gcc",
-        "cpp":      "/Applications/ArmGNUToolchain/13.2.Rel1/arm-none-eabi/bin/arm-none-eabi-g++",
         "ar":       "/Applications/ArmGNUToolchain/13.2.Rel1/arm-none-eabi/bin/arm-none-eabi-ar",
-        "nm":       "/Applications/ArmGNUToolchain/13.2.Rel1/arm-none-eabi/bin/arm-none-eabi-nm",
-        "ld":       "/Applications/ArmGNUToolchain/13.2.Rel1/arm-none-eabi/bin/arm-none-eabi-ld",
         "as":       "/Applications/ArmGNUToolchain/13.2.Rel1/arm-none-eabi/bin/arm-none-eabi-as",
+        "cpp":      "/Applications/ArmGNUToolchain/13.2.Rel1/arm-none-eabi/bin/arm-none-eabi-g++",
+        "gcc":      "/Applications/ArmGNUToolchain/13.2.Rel1/arm-none-eabi/bin/arm-none-eabi-gcc",
+        "gcov":     "/Applications/ArmGNUToolchain/13.2.Rel1/arm-none-eabi/bin/arm-none-eabi-gcov",
+        "ld":       "/Applications/ArmGNUToolchain/13.2.Rel1/arm-none-eabi/bin/arm-none-eabi-ld",
+        "llvm-cov": "/bin/false",
+        "nm":       "/Applications/ArmGNUToolchain/13.2.Rel1/arm-none-eabi/bin/arm-none-eabi-nm",
         "objcopy":  "/Applications/ArmGNUToolchain/13.2.Rel1/arm-none-eabi/bin/arm-none-eabi-objcopy",
         "objdump":  "/Applications/ArmGNUToolchain/13.2.Rel1/arm-none-eabi/bin/arm-none-eabi-objdump",
-        "gcov":     "/Applications/ArmGNUToolchain/13.2.Rel1/arm-none-eabi/bin/arm-none-eabi-gcov",
         "strip":    "/Applications/ArmGNUToolchain/13.2.Rel1/arm-none-eabi/bin/arm-none-eabi-strip",
-        "llvm-cov": "/bin/false",
-        # "llvm-cov": "/opt/homebrew/bin/cargo-llvm-cov",
     },
     compile_flags = [
         "--specs=nosys.specs",
@@ -76,7 +75,7 @@ cc_toolchain_config(
 )
 
 toolchain(
-    name = "arm64_gcc_linux_x86_64",
+    name = "arm_none_eabi_gcc_darwin_arm64",
     exec_compatible_with = [
         "@platforms//os:osx",
         "@platforms//cpu:aarch64",

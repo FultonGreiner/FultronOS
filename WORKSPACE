@@ -1,3 +1,3 @@
 register_toolchains(
-    "//bazel/toolchain:arm64_gcc_linux_x86_64",
+    "//bazel/toolchain:arm_none_eabi_gcc_darwin_arm64",
 )

@@ -1,6 +1,5 @@
 # Filename: renode-config.resc
-# $bin?=@Debug/FultronOS.elf
-$bin?=@bazel-bin/source/kernel
+$bin?=@bazel-bin/source/fultronos.elf
 
 # Create Machine & Load config
 mach create
