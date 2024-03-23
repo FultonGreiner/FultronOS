@@ -1,0 +1,34 @@
+# Filename: network.resc
+$bin?=@bazel-bin/source/fultronos.elf
+
+# Create Machine & Load config
+mach create
+machine LoadPlatformDescription @platforms/cpus/zynq-7000.repl
+
+# Create a terminal window showing the output of UART0
+showAnalyzer sysbus.uart0
+
+# Enable GDB
+machine StartGdbServer 1234
+
+emulation CreateTap "tap0" "tap"
+emulation CreateSwitch "switch1"
+
+connector Connect sysbus.gem0 switch1
+switch1 Start
+
+connector Connect host.tap switch1
+host.tap Start
+
+macro reset
+"""
+    sysbus LoadELF $bin
+"""
+
+# sysbus LogAllPeripheralsAccess true
+
+# sysbus.cpu LogFunctionNames true
+
+runMacro $reset
+
+# start
