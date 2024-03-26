@@ -8,9 +8,9 @@
     .type Reset_Handler, %function
 
 Reset_Handler:
-    ldr sp, =__stack_top
+    ldr   r0, =__stack_top
+    mov   sp, r0          /* set stack pointer */
     bl main
-    b .
 
     .section .isr_vector,"a",%progbits
     .type g_pfnVectors, %object
