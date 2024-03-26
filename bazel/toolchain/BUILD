@@ -68,7 +68,7 @@ cc_toolchain_config(
         "-mfloat-abi=hard",
         "-mfpu=vfpv3",
         "-nostartfiles",
-        "-T /Users/fultongreiner/Development/FultronOS/source/arch/zynq-7000/link.ld",
+        "-T /Users/fultongreiner/Development/FultronOS/source/arch/zynq-7000/memmap.ld",
         "-Wl,--start-group -lc -lm -Wl,--end-group",
     ],
 )

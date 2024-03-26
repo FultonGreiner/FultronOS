@@ -1,61 +1,54 @@
-/* ENTRY(_start) */
+OUTPUT_FORMAT ("elf32-littlearm")
 
-_HEAP_SIZE = DEFINED(_HEAP_SIZE) ? _HEAP_SIZE : 0x10000;    /* 64kB of heap memory */
-_STACK_SIZE = DEFINED(_STACK_SIZE) ? _STACK_SIZE : 0x10000; /* 64kB of stack memory */
+_HEAP_SIZE  = DEFINED(_HEAP_SIZE) ? _HEAP_SIZE :   16K; /* 16K of heap memory */
+_STACK_SIZE = DEFINED(_STACK_SIZE) ? _STACK_SIZE : 16K; /* 16K of stack memory */
 
-/* _OCM_RAM0_BASEADDR = 0x00000000;
-_OCM_RAM0_LENGTH = 192K;
-
-_OCM_ROM_BASEADDR = _OCM_RAM0_BASEADDR + _OCM_RAM0_LENGTH;
-_OCM_ROM_LENGTH = 64K;
-
-_EMPTY0_BASEADDR = _OCM_ROM_BASEADDR + _OCM_ROM_LENGTH;
-_EMPTY0_LENGTH = 768K;
-
-_DDR_BASEADDR = _EMPTY0_BASEADDR + _EMPTY0_LENGTH;
-_DDR_LENGTH = 2G; */
-
-/* Define Memories in the system */
+/* Define memory regions */
 MEMORY
 {
-	PMU_RAM : ORIGIN = 0xFFDC0000, LENGTH = 0x1F6E0	    ~125.7 k
-    /* OCM_RAM0 : ORIGIN = _OCM_RAM0_BASEADDR, LENGTH = _OCM_RAM0_LENGTH
-    OCM_ROM  : ORIGIN = _OCM_ROM_BASEADDR,  LENGTH = _OCM_ROM_LENGTH
-    EMPTY0   : ORIGIN = _EMPTY0_BASEADDR,   LENGTH = _EMPTY0_LENGTH
-    DDR      : ORIGIN = 0x00000000,         LENGTH = 0x80000000
-    M_AXI_GP0
-    M_AXI_GP1
-    PERIPHERALS
-    EMPTY1
-    OCM_RAM1 */
+    SRAM0      : ORIGIN = 0x00000000, LENGTH = 192K      /* 192K */
+    QSPI_FLASH : ORIGIN = 0xFC000000, LENGTH = 0x1000000
+    DDR0       : ORIGIN = 0x00100000, LENGTH = 512M      /* 512M */
+    SRAM1      : ORIGIN = 0xFFFF0000, LENGTH = 64K       /*  64K */
 }
 
 SECTIONS
 {
-    .text 0xFFDC0050: {
+    .isr_vector :
+    {
+        . = ALIGN(4);
+        KEEP(*(.isr_vector)) /* Startup code */
+        . = ALIGN(4);
+    } > SRAM0
+
+    .text :
+    {
         *(.text)
         *(.text.*)
         *(.gnu.linkonce.t.*)
-    } > PMU_RAM
+    } > SRAM0
 
-    .rodata : {
+    .rodata :
+    {
         __rodata_start = .;
         *(.rodata)
         *(.rodata.*)
         *(.gnu.linkonce.r.*)
         __rodata_end = .;
-    } > PMU_RAM
+    } > SRAM0
 
-    .data : {
+    .data :
+    {
         . = ALIGN(4);
         __data_start = .;
         *(.data)
         *(.data.*)
         *(.gnu.linkonce.d.*)
         __data_end = .;
-    } > PMU_RAM
+    } > SRAM0
 
-    .bss (NOLOAD) : {
+    .bss (NOLOAD) :
+    {
         . = ALIGN(4);
         __bss_start = .;
         *(.bss)
@@ -64,24 +57,26 @@ SECTIONS
         *(COMMON)
         . = ALIGN(4);
         __bss_end = .;
-    } > PMU_RAM
+    } > SRAM0
 
-    .heap (NOLOAD) : {
+    .heap (NOLOAD) :
+    {
         . = ALIGN(8);
         __heap_start = .;
         . = . + _HEAP_SIZE;
         . = ALIGN(8);
         __heap_end = .;
-    } > PMU_RAM
+    } > SRAM1
 
     /* Generate Stack definitions */
-    .stack (NOLOAD) : {
+    .stack (NOLOAD) :
+    {
         . = ALIGN(8);
         __stack_end = .;
         . += _STACK_SIZE;
         . = ALIGN(8);
         __stack_top = .;
-    } > PMU_RAM
+    } > SRAM1
 
     _end = .;
 }
