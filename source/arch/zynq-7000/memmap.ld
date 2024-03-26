@@ -17,7 +17,7 @@ SECTIONS
     .isr_vector :
     {
         KEEP(*(.isr_vector)) /* Startup code */
-    } > DDR0
+    } > SRAM0
 
     .text :
     {

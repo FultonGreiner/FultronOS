@@ -10,6 +10,8 @@ cc_binary(
         "//source/drivers/uartps:uartps",
         "//source/kernel:kernel",
         "//source/lib/libfc:libfc",
+        
+        "//source/system/fatfs:fatfs",
     ],
     copts = [
     ],
