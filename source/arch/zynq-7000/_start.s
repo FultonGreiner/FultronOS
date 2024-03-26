@@ -1,3 +1,3 @@
-LDR sp, =stack_top
+LDR sp, =__stack_top
 BL main
 B .

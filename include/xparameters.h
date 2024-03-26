@@ -249,31 +249,31 @@ extern "C" {
 /* REDEFINES for TEST APP */
 /* Definitions for UART */
 #define XPAR_PS7_UART_0_INTR		XPS_UART0_INT_ID
-#define XPAR_PS7_UART_1_INTR		XPS_UART1_INT_ID
-#define XPAR_PS7_USB_0_INTR		XPS_USB0_INT_ID
-#define XPAR_PS7_USB_1_INTR		XPS_USB1_INT_ID
-#define XPAR_PS7_I2C_0_INTR		XPS_I2C0_INT_ID
-#define XPAR_PS7_I2C_1_INTR		XPS_I2C1_INT_ID
-#define XPAR_PS7_SPI_0_INTR		XPS_SPI0_INT_ID
-#define XPAR_PS7_SPI_1_INTR		XPS_SPI1_INT_ID
-#define XPAR_PS7_CAN_0_INTR		XPS_CAN0_INT_ID
-#define XPAR_PS7_CAN_1_INTR		XPS_CAN1_INT_ID
-#define XPAR_PS7_GPIO_0_INTR		XPS_GPIO_INT_ID
-#define XPAR_PS7_ETHERNET_0_INTR	XPS_GEM0_INT_ID
-#define XPAR_PS7_ETHERNET_0_WAKE_INTR	XPS_GEM0_WAKE_INT_ID
-#define XPAR_PS7_ETHERNET_1_INTR	XPS_GEM1_INT_ID
-#define XPAR_PS7_ETHERNET_1_WAKE_INTR	XPS_GEM1_WAKE_INT_ID
-#define XPAR_PS7_QSPI_0_INTR		XPS_QSPI_INT_ID
-#define XPAR_PS7_WDT_0_INTR		XPS_WDT_INT_ID
-#define XPAR_PS7_SCUWDT_0_INTR		XPS_SCU_WDT_INT_ID
-#define XPAR_PS7_SCUTIMER_0_INTR	XPS_SCU_TMR_INT_ID
-#define XPAR_PS7_XADC_0_INTR		XPS_SYSMON_INT_ID
-#define XPAR_PS7_TTC_0_INTR         XPS_TTC0_0_INT_ID
-#define XPAR_PS7_TTC_1_INTR         XPS_TTC0_1_INT_ID
-#define XPAR_PS7_TTC_2_INTR         XPS_TTC0_2_INT_ID
-#define XPAR_PS7_TTC_3_INTR         XPS_TTC1_0_INT_ID
-#define XPAR_PS7_TTC_4_INTR         XPS_TTC1_1_INT_ID
-#define XPAR_PS7_TTC_5_INTR         XPS_TTC1_2_INT_ID
+// #define XPAR_PS7_UART_1_INTR		XPS_UART1_INT_ID
+// #define XPAR_PS7_USB_0_INTR		XPS_USB0_INT_ID
+// #define XPAR_PS7_USB_1_INTR		XPS_USB1_INT_ID
+// #define XPAR_PS7_I2C_0_INTR		XPS_I2C0_INT_ID
+// #define XPAR_PS7_I2C_1_INTR		XPS_I2C1_INT_ID
+// #define XPAR_PS7_SPI_0_INTR		XPS_SPI0_INT_ID
+// #define XPAR_PS7_SPI_1_INTR		XPS_SPI1_INT_ID
+// #define XPAR_PS7_CAN_0_INTR		XPS_CAN0_INT_ID
+// #define XPAR_PS7_CAN_1_INTR		XPS_CAN1_INT_ID
+// #define XPAR_PS7_GPIO_0_INTR		XPS_GPIO_INT_ID
+// #define XPAR_PS7_ETHERNET_0_INTR	XPS_GEM0_INT_ID
+// #define XPAR_PS7_ETHERNET_0_WAKE_INTR	XPS_GEM0_WAKE_INT_ID
+// #define XPAR_PS7_ETHERNET_1_INTR	XPS_GEM1_INT_ID
+// #define XPAR_PS7_ETHERNET_1_WAKE_INTR	XPS_GEM1_WAKE_INT_ID
+// #define XPAR_PS7_QSPI_0_INTR		XPS_QSPI_INT_ID
+// #define XPAR_PS7_WDT_0_INTR		XPS_WDT_INT_ID
+// #define XPAR_PS7_SCUWDT_0_INTR		XPS_SCU_WDT_INT_ID
+// #define XPAR_PS7_SCUTIMER_0_INTR	XPS_SCU_TMR_INT_ID
+// #define XPAR_PS7_XADC_0_INTR		XPS_SYSMON_INT_ID
+// #define XPAR_PS7_TTC_0_INTR         XPS_TTC0_0_INT_ID
+// #define XPAR_PS7_TTC_1_INTR         XPS_TTC0_1_INT_ID
+// #define XPAR_PS7_TTC_2_INTR         XPS_TTC0_2_INT_ID
+// #define XPAR_PS7_TTC_3_INTR         XPS_TTC1_0_INT_ID
+// #define XPAR_PS7_TTC_4_INTR         XPS_TTC1_1_INT_ID
+// #define XPAR_PS7_TTC_5_INTR         XPS_TTC1_2_INT_ID
 
 #define XPAR_XADCPS_INT_ID		XPS_SYSMON_INT_ID
 
@@ -302,15 +302,20 @@ extern "C" {
 #define XPAR_SCUTIMER_DEVICE_ID		0U
 #define XPAR_SCUWDT_DEVICE_ID		0U
 
-/* Definitions for UARTLITE */
-#define XPAR_XUARTLITE_NUM_INSTANCES 1         /* Number of instances */
+#define XPAR_XUARTPS_NUM_INSTANCES      (2U) /* Number of instances */
+#define XPAR_XUARTPS_0_DEVICE_ID        (120U) /* Device ID for instance */
+#define XPAR_XUARTPS_0_BASEADDR         (XPS_UART0_BASEADDR) /* Device base address */
+#define XPAR_XUARTPS_0_UART_CLK_FREQ_HZ (1000000ULL) /* Clock frequency of device */
 
-#define XPAR_UARTLITE_0_DEVICE_ID   30         /* Device ID for instance */
-#define XPAR_UARTLITE_0_BASEADDR    (XPS_UART0_BASEADDR) /* Device base address */
-#define XPAR_UARTLITE_0_BAUDRATE    (115200ULL)      /* Baud rate */
-#define XPAR_UARTLITE_0_USE_PARITY  FALSE      /* Parity generator enabled */
-#define XPAR_UARTLITE_0_ODD_PARITY  FALSE      /* Type of parity generated */
-#define XPAR_UARTLITE_0_DATA_BITS   8          /* Data bits */
+/* Definitions for UARTLITE */
+// #define XPAR_XUARTLITE_NUM_INSTANCES 1         /* Number of instances */
+
+// #define XPAR_UARTLITE_0_DEVICE_ID   (40UL)   /* Device ID for instance */
+// #define XPAR_UARTLITE_0_BASEADDR    (XPS_UART0_BASEADDR) /* Device base address */
+// #define XPAR_UARTLITE_0_BAUDRATE    (115200ULL)      /* Baud rate */
+// #define XPAR_UARTLITE_0_USE_PARITY  FALSE      /* Parity generator enabled */
+// #define XPAR_UARTLITE_0_ODD_PARITY  FALSE      /* Type of parity generated */
+// #define XPAR_UARTLITE_0_DATA_BITS   8          /* Data bits */
 
 /* Definitions for EMACPS */
 #define XPAR_XEMACPS_NUM_INSTANCES       (1U)

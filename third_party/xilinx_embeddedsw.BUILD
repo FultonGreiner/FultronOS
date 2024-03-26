@@ -2,6 +2,7 @@ cc_library(
     name = "xdrivers",
     srcs = [
         "lib/bsp/standalone/src/common/xil_assert.c",
+        "lib/bsp/standalone/src/common/xplatform_info.c",
 
         "XilinxProcessorIPLib/drivers/emacps/src/xemacps.c",
         "XilinxProcessorIPLib/drivers/emacps/src/xemacps_bdring.c",
@@ -11,13 +12,21 @@ cc_library(
         "XilinxProcessorIPLib/drivers/emacps/src/xemacps_intr.c",
         "XilinxProcessorIPLib/drivers/emacps/src/xemacps_sinit.c",
 
-        "XilinxProcessorIPLib/drivers/uartlite/src/xuartlite_g.c",
-        "XilinxProcessorIPLib/drivers/uartlite/src/xuartlite_intr.c",
-        "XilinxProcessorIPLib/drivers/uartlite/src/xuartlite_l.c",
-        "XilinxProcessorIPLib/drivers/uartlite/src/xuartlite_selftest.c",
-        "XilinxProcessorIPLib/drivers/uartlite/src/xuartlite_sinit.c",
-        "XilinxProcessorIPLib/drivers/uartlite/src/xuartlite_stats.c",
-        "XilinxProcessorIPLib/drivers/uartlite/src/xuartlite.c",
+        # "XilinxProcessorIPLib/drivers/uartlite/src/xuartlite_g.c",
+        # "XilinxProcessorIPLib/drivers/uartlite/src/xuartlite_intr.c",
+        # "XilinxProcessorIPLib/drivers/uartlite/src/xuartlite_l.c",
+        # "XilinxProcessorIPLib/drivers/uartlite/src/xuartlite_selftest.c",
+        # "XilinxProcessorIPLib/drivers/uartlite/src/xuartlite_sinit.c",
+        # "XilinxProcessorIPLib/drivers/uartlite/src/xuartlite_stats.c",
+        # "XilinxProcessorIPLib/drivers/uartlite/src/xuartlite.c",
+
+        "XilinxProcessorIPLib/drivers/uartps/src/xuartps_g.c",
+        "XilinxProcessorIPLib/drivers/uartps/src/xuartps_hw.c",
+        "XilinxProcessorIPLib/drivers/uartps/src/xuartps_intr.c",
+        "XilinxProcessorIPLib/drivers/uartps/src/xuartps_options.c",
+        "XilinxProcessorIPLib/drivers/uartps/src/xuartps_selftest.c",
+        "XilinxProcessorIPLib/drivers/uartps/src/xuartps_sinit.c",
+        "XilinxProcessorIPLib/drivers/uartps/src/xuartps.c",
     ],
     hdrs = [
         "lib/bsp/standalone/src/arm/common/gcc/xpseudo_asm_gcc.h",
@@ -28,6 +37,7 @@ cc_library(
         "lib/bsp/standalone/src/arm/cortexa9/xreg_cortexa9.h",
 
         "lib/bsp/standalone/src/common/xil_assert.h",
+        "lib/bsp/standalone/src/common/xplatform_info.h",
         "lib/bsp/standalone/src/common/xil_io.h",
         "lib/bsp/standalone/src/common/xil_printf.h",
         "lib/bsp/standalone/src/common/xil_types.h",
@@ -40,16 +50,20 @@ cc_library(
         "XilinxProcessorIPLib/drivers/emacps/src/xemacps_hw.h",
         "XilinxProcessorIPLib/drivers/emacps/src/xemacps.h",
 
-        "XilinxProcessorIPLib/drivers/uartlite/src/xuartlite_i.h",
-        "XilinxProcessorIPLib/drivers/uartlite/src/xuartlite_l.h",
-        "XilinxProcessorIPLib/drivers/uartlite/src/xuartlite.h",
+        # "XilinxProcessorIPLib/drivers/uartlite/src/xuartlite_i.h",
+        # "XilinxProcessorIPLib/drivers/uartlite/src/xuartlite_l.h",
+        # "XilinxProcessorIPLib/drivers/uartlite/src/xuartlite.h",
+
+        "XilinxProcessorIPLib/drivers/uartps/src/xuartps_hw.h",
+        "XilinxProcessorIPLib/drivers/uartps/src/xuartps.h",
     ],
     copts = [
         "-Iexternal/xilinx_embeddedsw_lib/lib/bsp/standalone/src/arm/common/gcc",
         "-Iexternal/xilinx_embeddedsw_lib/lib/bsp/standalone/src/arm/cortexa9",
         "-Iexternal/xilinx_embeddedsw_lib/lib/bsp/standalone/src/common",
         "-Iexternal/xilinx_embeddedsw_lib/XilinxProcessorIPLib/drivers/emacps/src",
-        "-Iexternal/xilinx_embeddedsw_lib/XilinxProcessorIPLib/drivers/uartlite/src",
+        # "-Iexternal/xilinx_embeddedsw_lib/XilinxProcessorIPLib/drivers/uartlite/src",
+        "-Iexternal/xilinx_embeddedsw_lib/XilinxProcessorIPLib/drivers/uartps/src",
         "-Iexternal/xilinx_embeddedsw_lib/XilinxProcessorIPLib/drivers/common/src",
     ],
     deps = [
