@@ -1,36 +1,13 @@
-/*
- *  uart-zynq.c
- *
- *  Bare Metal UART driver for Xilinx Zynq devices
- *
- *  2017.05.21 Created
- *
- */
-
-#include "uart-zynq.h"
+#include "uartps.h"
 
 #include <stdint.h>
-
-/*
- * Section 19.2.3 Baud Rate Generator
- *
- * The baud rate can be calculated using the following equation:
- * baud rate = sel_clk / CD * (BDIV + 1)
- */
 
 #define XUARTPS_BRGR_CD_115200  62
 #define XUARTPS_BDIV_CD_115200   6
 
-/*
- * Appendix B.33 UART Controller (UART)
- */
-
 #define UART1_BASE 0xe0000000
 #define UART2_BASE 0xe0001000
 
-/*
- * CR (0x00000000)
- */
 #define XUARTPS_CR_STOPBRK (1<<8)       /* STPBRK (STOPBRK)      */
 #define XUARTPS_CR_STTBRK  (1<<7)       /* STTBRK (STARTBRK)     */
 #define XUARTPS_CR_RSTTO   (1<<6)       /* RSTTO  (TORST)        */
@@ -41,9 +18,6 @@
 #define XUARTPS_CR_TXRES   (1<<1)       /* TXRES  (TXRST)        */
 #define XUARTPS_CR_RXRES   (1<<0)       /* RXRES  (RXRST)        */
 
-/*
- * MODER (0x00000004)
- */
 #define XUARTPS_MR_PAR                  /* PAR (Parity)          */
 #define XUARTPS_MR_PAR_EVEN     0       /* 000 : Even            */
                                         /* 001 : Odd             */
@@ -60,9 +34,6 @@
 #define XUARTPS_MR_CLKS_REF_CLK 0       /*   0 : uart_ref_clk    */
                                         /*   1 : uart_ref_clk/8  */
 
-/*
- * CSR (0x0000002C)
- */
 #define UART_STS_TXFULL  (1<<4)         /* TX FIFO Buffer Status */
                                         /*  1 : FIFO full        */
                                         /*  0 : FIFO not full    */

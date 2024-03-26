@@ -1,10 +1,10 @@
 cc_library(
-    name = "uart",
+    name = "uartps",
     srcs = [
-        "uart-zynq.c",
+        "uartps.c",
     ],
     hdrs = [
-        "uart-zynq.h",
+        "uartps.h",
     ],
     includes = [
         ".",

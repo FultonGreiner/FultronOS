@@ -1,7 +1,7 @@
 #include <string.h>
 
 #include "printf.h"
-#include "uart-zynq.h"
+#include "uartps.h"
 
 #define RX_BUFFER_SIZE 100
 static char rx_buffer[RX_BUFFER_SIZE] = {0};

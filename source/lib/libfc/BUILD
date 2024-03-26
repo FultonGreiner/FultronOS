@@ -12,6 +12,6 @@ cc_library(
     ],
     visibility = ["//visibility:public"],
     deps = [
-        "//source/drivers/uart:uart",
+        "//source/drivers/uartps:uartps",
     ],
 )

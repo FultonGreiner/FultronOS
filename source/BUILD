@@ -7,7 +7,7 @@ cc_binary(
     ],
     deps = [
         "//source/arch/zynq-7000:zynq",
-        "//source/drivers/uart:uart",
+        "//source/drivers/uartps:uartps",
         "//source/kernel:kernel",
         "//source/lib/libfc:libfc",
     ],

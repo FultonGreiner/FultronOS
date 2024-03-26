@@ -56,7 +56,7 @@ cc_toolchain_config(
         "-nostdlib",
         "-Wl,--start-group -lc -lm -Wl,--end-group",
     ],
-    cxx_builtin_include_directories = [ # NEW
+    cxx_builtin_include_directories = [
         "/Applications/ArmGNUToolchain/13.2.Rel1/arm-none-eabi/lib/gcc/arm-none-eabi/13.2.1/include",
         "/Applications/ArmGNUToolchain/13.2.Rel1/arm-none-eabi/arm-none-eabi/include",
     ],

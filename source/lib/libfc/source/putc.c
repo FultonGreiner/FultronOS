@@ -1,4 +1,4 @@
-#include "uart-zynq.h"
+#include "uartps.h"
 
 void putc(char c)
 {

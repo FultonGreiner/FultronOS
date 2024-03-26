@@ -16,10 +16,8 @@ SECTIONS
 {
     .isr_vector :
     {
-        . = ALIGN(4);
         KEEP(*(.isr_vector)) /* Startup code */
-        . = ALIGN(4);
-    } > SRAM0
+    } > DDR0
 
     .text :
     {
