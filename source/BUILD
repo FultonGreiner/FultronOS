@@ -7,11 +7,13 @@ cc_binary(
     ],
     deps = [
         "//source/arch/zynq-7000:zynq",
+        "//source/drivers/sdram:sdram",
         "//source/drivers/uartps:uartps",
         "//source/kernel:kernel",
         "//source/lib/libfc:libfc",
-        
-        "//source/system/fatfs:fatfs",
+        "//source/system/fultronfs:fultronfs",
+
+        # "//external:littlefs",
     ],
     copts = [
     ],

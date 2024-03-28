@@ -19,7 +19,7 @@ DSTATUS FLASH_disk_read(BYTE *buff, LBA_t sector, UINT count)
 {
     (void)sector;
     
-    flash_read(0x00100000ULL, buff, count);
+    sdram_read(0x00100000ULL, buff, count);
 
     return FR_OK;
 }
@@ -28,6 +28,14 @@ DSTATUS FLASH_disk_write(const BYTE *buff, LBA_t sector, UINT count)
 {
     (void)sector;
 
-    flash_write(0x00100000ULL, buff, count);
+    sdram_write(0x00100000ULL, buff, count);
+    return FR_OK;
+}
+
+DSTATUS FLASH_disk_ioctl(const BYTE *buff, LBA_t sector, UINT count)
+{
+    (void)sector;
+
+    sdram_write(0x00100000ULL, buff, count);
     return FR_OK;
 }

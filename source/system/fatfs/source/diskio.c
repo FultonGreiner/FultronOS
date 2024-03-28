@@ -135,14 +135,33 @@ DRESULT disk_ioctl (
 	void *buff		/* Buffer to send/receive control data */
 )
 {
-	DRESULT res;
-	int result;
+	UINT* result = (UINT*)buff;
 
 	switch (pdrv)
 	{
 		case DEV_FLASH:
 		{
-			return res;
+			switch (cmd) {
+				case GET_SECTOR_COUNT:
+				{
+					result[0] = 512; // Sector and block sizes of
+					return RES_OK;
+				}
+				case GET_SECTOR_SIZE:
+				{
+					result[0] = 4096;
+					return RES_OK;
+				}
+				case GET_BLOCK_SIZE:
+				{
+					result[0] = 32768;
+					return RES_OK;
+				}
+				default:
+				{
+					break;
+				}
+    		}
 		}
 	}
 

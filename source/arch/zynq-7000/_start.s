@@ -10,7 +10,7 @@
 Reset_Handler:
     ldr sp, =__stack_top
     bl main
-    b .
+    @ b .
 
 /**
  * @brief Vector Table

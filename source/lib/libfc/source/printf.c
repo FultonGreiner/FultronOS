@@ -144,7 +144,7 @@ static inline void _out_null(char character, void *buffer, size_t idx, size_t ma
     (void)maxlen;
 }
 
-// internal putc wrapper
+// internal _putchar wrapper
 static inline void _out_char(char character, void *buffer, size_t idx, size_t maxlen)
 {
     (void)buffer;
@@ -152,7 +152,7 @@ static inline void _out_char(char character, void *buffer, size_t idx, size_t ma
     (void)maxlen;
     if (character)
     {
-        putc(character);
+        _putchar(character);
     }
 }
 

@@ -1,0 +1,16 @@
+# Filename: renode-config.resc
+$bin?=@bazel-bin/source/fultronos.elf
+
+# Create Machine & Load config
+mach create
+machine LoadPlatformDescription @platforms/cpus/zynq-7000.repl
+
+# Enable GDB
+machine StartGdbServer 1234
+
+macro reset
+"""
+    sysbus LoadELF $bin
+"""
+
+runMacro $reset

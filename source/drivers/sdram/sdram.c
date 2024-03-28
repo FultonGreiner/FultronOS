@@ -5,7 +5,16 @@
 #define DDR0_BASE (0x00100000ULL)
 #define DDR0_SIZE (0x20000000ULL) /* 512M (512 * 1024 * 1024) */
 
-void flash_read(uint32_t address, uint8_t *data, uint32_t size)
+void sdram_erase(uint32_t address, uint32_t size)
+{
+    for (uint32_t i = 0; i < size; i++)
+    {
+        *((volatile uint8_t *)(address + i)) = 0xFF;
+    }
+    return;
+}
+
+void sdram_read(uint32_t address, uint8_t *data, uint32_t size)
 {
     for (uint32_t i = 0; i < size; i++)
     {
@@ -14,7 +23,7 @@ void flash_read(uint32_t address, uint8_t *data, uint32_t size)
     return;
 }
 
-void flash_write(uint32_t address, const uint8_t *data, uint32_t size)
+void sdram_write(uint32_t address, const uint8_t *data, uint32_t size)
 {
     for (uint32_t i = 0; i < size; i++)
     {

@@ -25,6 +25,12 @@ def emulate(ctx):
     cmd = f"{RENODE_EXE} tools/renode/renode-config.resc"
     ctx.run(cmd)
 
+@task
+def gdbserver(ctx):
+    """Launch the kernel image in renode"""
+    cmd = f"{RENODE_EXE} --disable-gui tools/renode/gdbserver.resc"
+    ctx.run(cmd)
+
 # Add tasks to the namespace
 fultronos = Collection(build, clean)
 config = Config(defaults={"run": {"pty": True}})

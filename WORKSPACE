@@ -12,6 +12,18 @@ bind(
     actual = "@xilinx_embeddedsw_lib//:xilinx_embeddedsw",
 )
 
+new_git_repository(
+    name = "littlefs_lib",
+    remote = "https://github.com/littlefs-project/littlefs.git",
+    tag = "v2.9.1",
+    build_file = "//third_party:littlefs.BUILD",
+)
+
+bind(
+    name = "littlefs",
+    actual = "@littlefs_lib//:littlefs",
+)
+
 register_toolchains(
     "//bazel/toolchain:arm_none_eabi_gcc_darwin_arm64",
 )
