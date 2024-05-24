@@ -11,3 +11,11 @@ panic-halt = "0.2.0"
 
 [build-dependencies]
 cc = "1.0"
+
+[profile.dev]
+opt-level = 0
+debug = true
+
+[profile.release]
+opt-level = 3
+debug = true  # Ensure debug symbols are included in release builds
