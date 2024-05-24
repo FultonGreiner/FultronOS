@@ -3,7 +3,7 @@
 
 use core::fmt::Write;
 use cortex_m_rt::entry;
-use devices::chardev::{CharDev, CharDevice};
+use devices::chardev::CharDev;
 use drivers::uart::UART;
 
 mod devices;
@@ -129,6 +129,7 @@ fn main() -> ! {
                 } else {
                     // Handle buffer overflow
                     println!("Buffer overflow");
+                    uart.deinit();
                     loop {}
                 }
             },
