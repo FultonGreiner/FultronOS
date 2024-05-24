@@ -40,8 +40,9 @@ fn main() {
 
     // Compile the assembly file
     cc::Build::new()
-        .file("src/arch/start.s")
-        .flag("-nostdlib")
+        .file("src/arch/aarch64/start.s")
+        .file("src/arch/aarch64/vector.s")
+        .flag("-mcpu=cortex-a53")
         .compile("start");
 
     // Add linker arguments

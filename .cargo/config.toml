@@ -1,5 +1,6 @@
 [target.aarch64-unknown-none]
 linker = "aarch64-linux-gnu-gcc"
+runner = "./run.sh"
 
 [build]
 target = "aarch64-unknown-none"

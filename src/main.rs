@@ -2,6 +2,7 @@
 #![no_main]
 
 use core::fmt::Write;
+use core::ptr::read_volatile;
 use cortex_m_rt::entry;
 use devices::chardev::CharDev;
 use drivers::uart::UART;
@@ -9,6 +10,7 @@ use drivers::uart::UART;
 mod devices;
 mod drivers;
 mod panic_handler;
+mod vector;
 
 /// Global static variable to hold the UART device instance.
 ///
@@ -55,6 +57,8 @@ fn get_pkg_version() -> &'static str {
     env!("CARGO_PKG_VERSION")
 }
 
+const INVALID_ADDR: usize = 0xffffffffffffffff;
+
 /// The main entry point of the program.
 ///
 /// This function initializes the UART device, prints a welcome message with version and git information,
@@ -75,14 +79,25 @@ fn main() -> ! {
     // Retrieve and print the git branch, commit hash, and package version
     let (branch, commit) = get_git_info();
     let pkg_version = get_pkg_version();
+    let (_, exception_level) = vector::current_exception_level();
 
     println!("Welcome to FultronOS!");
     println!("Version Info: v{}", pkg_version);
     println!("Branch: {}, Commit: {}", branch, commit);
+    println!("Current privilege level: {}", exception_level);
+
+    unsafe {
+        vector::vector_init();
+    }
 
     // Buffer to store incoming UART data
     let mut buffer: [u8; 128] = [0; 128];
     let mut idx = 0;
+
+    println!("");
+    println!("Trying to read from address 8 GiB...");
+    let mut big_addr: u64 = 8 * 1024 * 1024 * 1024;
+    unsafe { read_volatile(big_addr as *mut u64) };
 
     print!(">");
 
