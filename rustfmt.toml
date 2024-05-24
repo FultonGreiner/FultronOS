@@ -1,0 +1,22 @@
+# rustfmt.toml
+
+# Maximum width of each line
+max_width = 100
+
+# Use spaces instead of tabs
+hard_tabs = false
+
+# Number of spaces per tab
+tab_spaces = 4
+
+# Reorder imports to be sorted alphabetically
+reorder_imports = true
+
+# Align function parameters and arguments vertically
+fn_params_layout = "Vertical"
+
+# Newline style
+newline_style = "Unix"
+
+# Whether to use visual indentation for match arms
+match_block_trailing_comma = true
