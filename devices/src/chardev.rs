@@ -1,4 +1,6 @@
-use crate::drivers::uart::UART;
+extern crate drivers;
+
+use drivers::uart::UART;
 use core::fmt::{self, Write};
 
 /// A trait representing a character device, providing methods for initialization,

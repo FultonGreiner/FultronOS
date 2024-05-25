@@ -34,19 +34,8 @@ fn main() {
     println!("cargo:rustc-env=GIT_COMMIT={}", commit);
     println!("cargo:rustc-env=CARGO_PKG_VERSION={}", cargo_pkg_version);
 
-    // Instruct Cargo to rerun this build script if certain files change
-    println!("cargo:rerun-if-changed=src/arch/start.s");
-    println!("cargo:rerun-if-changed=src/linker.ld");
-
-    // Compile the assembly file
-    cc::Build::new()
-        .file("src/arch/aarch64/start.s")
-        .file("src/arch/aarch64/vector.s")
-        .flag("-mcpu=cortex-a53")
-        .compile("start");
-
-    // Add linker arguments
+    // // Add linker arguments
     println!("cargo:rustc-link-arg=-nostartfiles");
     println!("cargo:rustc-link-arg=-nostdlib");
-    println!("cargo:rustc-link-arg=-Tsrc/linker.ld");
+    println!("cargo:rustc-link-arg=-Tarch/aarch64/src/linker.ld");
 }
