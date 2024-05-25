@@ -42,6 +42,30 @@
  * No examples available for exception handling code.
  */
 
+/**
+ * @brief Save frame context, call IRQ handler function, and recover.
+ *
+ * This macro saves the current frame context on the stack, calls the
+ * specified handler function with the context as the first argument, and
+ * restores the context after the handler returns.
+ *
+ * @param handler The handler function to call.
+ */
+
+.macro IRQ_RECOVER handler
+__irq_\handler:
+    bl save_interrupt_frame
+
+    // Call the handler function.
+    bl \handler
+
+    // Restore the exception context and return from the exception.
+    b restore_interrupt_frame
+
+.size __irq_\handler, . - __irq_\handler
+.type __irq_\handler, function
+.endm
+
 //--------------------------------------------------------------------------------------------------
 // Private Code
 //--------------------------------------------------------------------------------------------------
@@ -103,30 +127,6 @@ vectors:
 	.balign 0x80
 		IRQ_RECOVER eln_error_invalid_aarch32
 	.balign 0x80
-
-/**
- * @brief Save frame context, call IRQ handler function, and recover.
- *
- * This macro saves the current frame context on the stack, calls the
- * specified handler function with the context as the first argument, and
- * restores the context after the handler returns.
- *
- * @param handler The handler function to call.
- */
-
-.macro IRQ_RECOVER handler
-__irq_\handler:
-    bl save_interrupt_frame
-
-    // Call the handler function.
-    bl \handler
-
-    // Restore the exception context and return from the exception.
-    b restore_interrupt_frame
-
-.size __irq_\handler, . - __irq_\handler
-.type __irq_\handler, function
-.endm
 
 /**
  * @brief Restore the interrupt frame context.

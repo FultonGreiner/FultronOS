@@ -4,12 +4,27 @@ version = "0.1.0"
 edition = "2021"
 build = "build.rs"
 
+[workspace]
+members = [
+    "arch/aarch64",
+    "common",
+    "devices",
+    "drivers",
+    # "crates/devices",
+    # "crates/drivers",
+    # "crates/utils",  # If applicable
+]
+
 [dependencies]
 aarch64-cpu = "9.4.0"
 cortex-m = "0.7.3"
 cortex-m-rt = "0.7.3"
 panic-halt = "0.2.0"
 tock-registers = "0.8.x"
+aarch64 = { path = "arch/aarch64" }
+common = { path = "common" }
+devices = { path = "devices" }
+drivers = { path = "drivers" }
 
 [build-dependencies]
 cc = "1.0"

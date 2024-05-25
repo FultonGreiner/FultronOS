@@ -140,12 +140,14 @@ pub fn current_exception_level() -> (CurrentEL::EL::Value, &'static str) {
 ///
 /// This function sets the vector base address register (VBAR_EL2) to point to the
 /// exception vector table and ensures the update is complete before continuing.
-pub unsafe fn vector_init() {
+pub fn vector_init() {
     extern "Rust" {
         static vectors: UnsafeCell<()>;
     }
 
-    VBAR_EL2.set(vectors.get() as u64);
+    unsafe {
+        VBAR_EL2.set(vectors.get() as u64);
 
-    barrier::isb(barrier::SY);
+        barrier::isb(barrier::SY);
+    }
 }
