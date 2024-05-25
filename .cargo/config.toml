@@ -4,3 +4,7 @@ runner = "./run.sh"
 
 [build]
 target = "aarch64-unknown-none"
+
+[unstable]
+build-std = ["alloc", "compiler_builtins", "core"]
+build-std-features = ["compiler-builtins-mem"]

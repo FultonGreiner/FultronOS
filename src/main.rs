@@ -1,16 +1,19 @@
 #![no_std]
 #![no_main]
 
+// extern crate alloc;
+
 use core::fmt::Write;
-use core::ptr::read_volatile;
 use cortex_m_rt::entry;
 use devices::chardev::CharDev;
 use drivers::uart::UART;
+use fultronos::vector;
+
+// use blog_os::task::{executor::Executor, keyboard, Task};
 
 mod devices;
 mod drivers;
 mod panic_handler;
-mod vector;
 
 /// Global static variable to hold the UART device instance.
 ///
@@ -64,7 +67,7 @@ const INVALID_ADDR: usize = 0xffffffffffffffff;
 /// This function initializes the UART device, prints a welcome message with version and git information,
 /// and enters an infinite loop to handle UART input and output.
 #[entry]
-fn main() -> ! {
+fn kernel_main() -> ! {
     unsafe {
         UART_DEVICE = Some(CharDev::new());
     }
@@ -87,67 +90,10 @@ fn main() -> ! {
     println!("Current privilege level: {}", exception_level);
 
     unsafe {
+        vector::enable_irq();
         vector::vector_init();
+        vector::disable_irq();
     }
 
-    // Buffer to store incoming UART data
-    let mut buffer: [u8; 128] = [0; 128];
-    let mut idx = 0;
-
-    println!("");
-    println!("Trying to read from address 8 GiB...");
-    let mut big_addr: u64 = 8 * 1024 * 1024 * 1024;
-    unsafe { read_volatile(big_addr as *mut u64) };
-
-    print!(">");
-
-    loop {
-        let uart = unsafe { UART_DEVICE.as_mut().unwrap() };
-
-        // Read a byte from the UART
-        let byte = uart.read_byte();
-
-        match byte {
-            b'\r' | b'\n' => {
-                // Handle newline characters
-                if idx > 0 {
-                    uart.write_byte(b'\n');
-
-                    if let Ok(cmd) = core::str::from_utf8(&buffer[..idx]) {
-                        println!("Received: {}", cmd);
-                    } else {
-                        println!("Error decoding buffer");
-                    }
-
-                    idx = 0; // Reset the buffer index
-
-                    print!(">");
-                } else {
-                    println!("Buffer is empty");
-                }
-            },
-            b'\x08' | b'\x7F' => {
-                // Handle backspace (usually '\x08' or '\x7F')
-                if idx > 0 {
-                    idx -= 1;
-                    uart.write_byte(b'\x08'); // Move cursor back
-                    uart.write_byte(b' '); // Erase the character
-                    uart.write_byte(b'\x08'); // Move cursor back again
-                }
-            },
-            _ => {
-                // Store the byte in the buffer and echo it back to the UART
-                if idx < buffer.len() {
-                    buffer[idx] = byte;
-                    idx += 1;
-                    uart.write_byte(byte);
-                } else {
-                    // Handle buffer overflow
-                    println!("Buffer overflow");
-                    uart.deinit();
-                    loop {}
-                }
-            },
-        }
-    }
+    loop { }
 }

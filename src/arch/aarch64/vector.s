@@ -52,6 +52,30 @@
 //------------------------------------------------------------------------------
 
 /**
+ * @brief Save frame context, call IRQ handler function, and recover.
+ *
+ * This macro saves the current frame context on the stack, calls the
+ * specified handler function with the context as the first argument, and
+ * restores the context after the handler returns.
+ *
+ * @param handler The handler function to call.
+ */
+
+.macro IRQ_RECOVER handler
+__irq_\handler:
+    bl save_interrupt_frame
+
+    // Call the handler function.
+    bl \handler
+
+    // Restore the exception context and return from the exception.
+    b restore_interrupt_frame
+
+.size __irq_\handler, . - __irq_\handler
+.type __irq_\handler, function
+.endm
+
+/**
  * @brief Exception vector table for AArch64.
  *
  * This table defines the exception vectors for various exception levels and types,
@@ -104,29 +128,15 @@ vectors:
 		IRQ_RECOVER eln_error_invalid_aarch32
 	.balign 0x80
 
-/**
- * @brief Save frame context, call IRQ handler function, and recover.
- *
- * This macro saves the current frame context on the stack, calls the
- * specified handler function with the context as the first argument, and
- * restores the context after the handler returns.
- *
- * @param handler The handler function to call.
- */
+.global __disable_irq
+__disable_irq:
+    msr DAIFSet, #0b1111
+    ret
 
-.macro IRQ_RECOVER handler
-__irq_\handler:
-    bl save_interrupt_frame
-
-    // Call the handler function.
-    bl \handler
-
-    // Restore the exception context and return from the exception.
-    b restore_interrupt_frame
-
-.size __irq_\handler, . - __irq_\handler
-.type __irq_\handler, function
-.endm
+.global __enable_irq
+__enable_irq:
+    msr DAIFClr, #0b1111
+    ret
 
 /**
  * @brief Restore the interrupt frame context.

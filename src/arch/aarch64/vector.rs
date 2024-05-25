@@ -8,6 +8,7 @@ use aarch64_cpu::asm::*;
 use aarch64_cpu::registers::*;
 use core::cell::UnsafeCell;
 use core::fmt;
+// use crate::*;
 use tock_registers::interfaces::{Readable, Writeable};
 
 /// Structure representing the saved state of general-purpose registers and other CPU state
@@ -149,3 +150,24 @@ pub unsafe fn vector_init() {
 
     barrier::isb(barrier::SY);
 }
+
+pub unsafe fn disable_irq() {
+    extern "C" {
+        fn __disable_irq();
+    }
+
+    // write!("Disabling IRQ!\n");
+
+    __disable_irq();
+}
+
+pub unsafe fn enable_irq() {
+    extern "C" {
+        fn __enable_irq();
+    }
+
+    // write!("Enabling IRQ!\n");
+
+    __enable_irq();
+}
+

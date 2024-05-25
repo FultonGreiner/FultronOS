@@ -71,7 +71,7 @@ _start:
 
     // Jump to main function
     // Branch with link to main function
-    bl main
+    bl kernel_main
     // Infinite loop to prevent fall-through
     b .
 

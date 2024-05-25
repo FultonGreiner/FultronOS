@@ -6,10 +6,32 @@ build = "build.rs"
 
 [dependencies]
 aarch64-cpu = "9.4.0"
+aarch64-paging = "0.5.0"
 cortex-m = "0.7.3"
 cortex-m-rt = "0.7.3"
+linked_list_allocator = "0.10.5"
 panic-halt = "0.2.0"
+spin = "0.9.8"
 tock-registers = "0.8.x"
+volatile = "0.5.4"
+
+[dependencies.lazy_static]
+version = "1.0"
+features = ["spin_no_std"]
+
+[dependencies.crossbeam-queue]
+version = "0.2.1"
+default-features = false
+features = ["alloc"]
+
+[dependencies.conquer-once]
+version = "0.2.0"
+default-features = false
+
+[dependencies.futures-util]
+version = "0.3.4"
+default-features = false
+features = ["alloc"]
 
 [build-dependencies]
 cc = "1.0"
@@ -21,3 +43,8 @@ debug = true
 [profile.release]
 opt-level = 3
 debug = true  # Ensure debug symbols are included in release builds
+
+[workspace]
+members = [
+    "src",
+]
