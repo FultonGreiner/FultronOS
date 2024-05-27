@@ -2,29 +2,30 @@
 name = "fultronos"
 version = "0.1.0"
 edition = "2021"
-build = "build.rs"
 
 [workspace]
 members = [
-    "arch/aarch64",
-    "common",
-    "devices",
-    "drivers",
-    # "crates/devices",
-    # "crates/drivers",
-    # "crates/utils",  # If applicable
+    "src/arch/aarch64",
+    "src/devices",
+    "src/drivers",
+    "src/lib",
+    "src/process",
 ]
 
 [dependencies]
+aarch64 = { path = "src/arch/aarch64" }
 aarch64-cpu = "9.4.0"
+aarch64-std = "0.1.2"
 cortex-m = "0.7.3"
 cortex-m-rt = "0.7.3"
+devices = { path = "src/devices" }
+drivers = { path = "src/drivers" }
+lib = { path = "src/lib" }
 panic-halt = "0.2.0"
+process = {path = "src/process"}
+smccc = "0.1.1"
+spin = "0.9.8"
 tock-registers = "0.8.x"
-aarch64 = { path = "arch/aarch64" }
-common = { path = "common" }
-devices = { path = "devices" }
-drivers = { path = "drivers" }
 
 [build-dependencies]
 cc = "1.0"

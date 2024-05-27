@@ -9,6 +9,7 @@ build = "build.rs"
 # edition = "2021"
 # path = "src/lib.rs"
 
+
 [build-dependencies]
 cc = "1.0"
 
@@ -18,3 +19,4 @@ cortex-m = "0.7.3"
 cortex-m-rt = "0.7.3"
 panic-halt = "0.2.0"
 tock-registers = "0.8.x"
+arm-gic = "0.1.0"

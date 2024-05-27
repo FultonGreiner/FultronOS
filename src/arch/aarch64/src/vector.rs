@@ -6,6 +6,7 @@
 
 use aarch64_cpu::asm::*;
 use aarch64_cpu::registers::*;
+use arm_gic::gicv3::{GicV3, IntId};
 use core::cell::UnsafeCell;
 use core::fmt;
 use tock_registers::interfaces::{Readable, Writeable};
@@ -54,7 +55,15 @@ extern "C" fn elnt_error_invalid(_frame: &mut InterruptFrame) {
 /// Synchronous exception handler for an invalid hypervisor level.
 #[no_mangle]
 extern "C" fn elnh_sync_invalid(frame: &mut InterruptFrame) {
-    default_irq_handler(frame);
+    const PL031_IRQ: IntId = IntId::spi(2);
+    match GicV3::get_and_acknowledge_interrupt().expect("No pending interrupt") {
+        PL031_IRQ => {
+            panic!("Entered elnh_sync_invalid()!");
+        },
+        _ => {
+            default_irq_handler(frame);
+        },
+    }
 }
 
 /// IRQ handler for an invalid hypervisor level.

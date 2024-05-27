@@ -1,8 +1,6 @@
 use core::panic::PanicInfo;
 
-extern crate common;
-
-use common::log_error;
+use lib::log_error;
 
 #[panic_handler]
 fn panic(_info: &PanicInfo) -> ! {

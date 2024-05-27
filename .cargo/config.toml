@@ -1,6 +1,17 @@
-[target.aarch64-unknown-none]
-linker = "aarch64-linux-gnu-gcc"
-runner = "./run.sh"
+[unstable]
+build-std-features = ["compiler-builtins-mem"]
+build-std = ["alloc", "core", "compiler_builtins"]
 
 [build]
-target = "aarch64-unknown-none"
+target = "aarch64-fultronos.json"
+
+[target.'cfg(target_os = "none")']
+runner = "./run.sh"
+
+# If you are using a custom target file
+[target.'cfg(target_arch = "aarch64")']
+rustflags = [
+    "-C", "link-arg=-nostartfiles",
+    "-C", "link-arg=-nostdlib",
+    "-C", "link-arg=-Tsrc/arch/aarch64/src/linker.ld"
+]

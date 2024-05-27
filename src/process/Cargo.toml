@@ -1,0 +1,10 @@
+[package]
+name = "process"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+arm-gic = "0.1.0"
+chrono = { version = "0.4.38", default-features = false }
+drivers = { path = "../drivers" }
+lib = { path = "../lib" }
